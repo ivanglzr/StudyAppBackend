@@ -1,6 +1,6 @@
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
-import type { User } from '../schemas/user.schemas';
+import type { User } from '../schemas/user.schema';
 
 import {
   emailMinLength,
