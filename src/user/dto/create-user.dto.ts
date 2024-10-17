@@ -21,6 +21,7 @@ export class CreateUserDto implements User {
   email: string;
 
   @IsString()
+  @IsNotEmpty()
   @MinLength(passwordMinLength)
   password: string;
 }
