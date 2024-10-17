@@ -1,22 +1,33 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 
-import { emailRegex, passwordRegex } from 'src/common/config';
+import {
+  emailMinLength,
+  emailRegex,
+  fullnameMinLength,
+  passwordMinLength,
+  passwordRegex,
+} from '../config';
 
 @Schema({ timestamps: true })
 export class User {
-  @Prop({ required: true, trim: true, minlength: 2 })
+  @Prop({ required: true, trim: true, minlength: fullnameMinLength })
   fullname: string;
 
   @Prop({
     required: true,
     trim: true,
-    minlength: 5,
+    minlength: emailMinLength,
     match: emailRegex,
     unique: true,
   })
   email: string;
 
-  @Prop({ required: true, trim: true, minlength: 8, match: passwordRegex })
+  @Prop({
+    required: true,
+    trim: true,
+    minlength: passwordMinLength,
+    match: passwordRegex,
+  })
   password: string;
 }
 
