@@ -1,4 +1,4 @@
-import bcryptjs from 'bcryptjs';
+import { genSaltSync, hashSync } from 'bcryptjs';
 
 import { SALT_ROUNDS } from '../config';
 
@@ -8,9 +8,9 @@ import { SALT_ROUNDS } from '../config';
  * @returns The hashed password
  */
 export function hashPassword(password: string): string {
-  const salt = bcryptjs.genSaltSync(SALT_ROUNDS);
+  const salt = genSaltSync(SALT_ROUNDS);
 
-  const hassedPassword = bcryptjs.hashSync(password, salt);
+  const hassedPassword = hashSync(password, salt);
 
   return hassedPassword;
 }
