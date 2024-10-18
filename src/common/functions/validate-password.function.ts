@@ -1,4 +1,4 @@
-import bcryptjs from 'bcryptjs';
+import { compareSync } from 'bcryptjs';
 
 /**
  * Function for validating if a password matches a hash
@@ -10,5 +10,5 @@ export function validatePassword(
   password: string,
   hassedPassword: string,
 ): boolean {
-  return bcryptjs.compareSync(password, hassedPassword);
+  return compareSync(password, hassedPassword);
 }
