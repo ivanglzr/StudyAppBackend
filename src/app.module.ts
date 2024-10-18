@@ -5,6 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 
+import { ENVIROMENT_VARIABLES } from './common/config';
+
 @Module({
   imports: [
     ConfigModule.forRoot(),
@@ -12,7 +14,7 @@ import { AuthModule } from './auth/auth.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (config: ConfigService) => ({
-        uri: config.get<string>('MONGODB_URI'),
+        uri: config.get<string>(ENVIROMENT_VARIABLES.MONGODB_URI),
       }),
     }),
     UserModule,
