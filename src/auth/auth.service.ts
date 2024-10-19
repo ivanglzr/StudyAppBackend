@@ -1,17 +1,36 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+
+import { JwtService } from '@nestjs/jwt';
+
 import { InjectModel } from '@nestjs/mongoose';
+
+import { hashPassword } from 'src/common/functions/hash-password.function';
 
 import type { Model } from 'mongoose';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import { LogInDto } from 'src/user/dto/log-in.dto';
 import { User } from 'src/user/schemas/user.schema';
 
-import { hashPassword } from 'src/common/functions/hash-password.function';
+import { validatePassword } from 'src/common/functions/validate-password.function';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<User>,
+    private jwtService: JwtService,
   ) {}
+
+  generateAccessToken(id: string) {
+    const payload = { id };
+
+    const token = this.jwtService.sign(payload);
+
+    return token;
+  }
 
   async emailExists(email: string): Promise<boolean> {
     return !!(await this.userModel.findOne({ email }));
@@ -30,5 +49,18 @@ export class AuthService {
     });
 
     await newUser.save();
+
+    return this.generateAccessToken(newUser._id.toString());
+  }
+
+  async logInUser(login: LogInDto) {
+    const user = await this.userModel.findOne({ email: login.email });
+
+    const isPasswordValid = validatePassword(login.password, user.password);
+
+    if (!isPasswordValid)
+      throw new UnauthorizedException('Log in unauthorized');
+
+    return this.generateAccessToken(user._id.toString());
   }
 }
