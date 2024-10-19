@@ -1,5 +1,6 @@
 export enum USER_ROUTES {
   BASE = 'user',
+  CHANGE_PASSWORD = 'password',
 }
 
 export enum AUTH_ROUTES {
