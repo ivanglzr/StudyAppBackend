@@ -10,7 +10,9 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async getUser(id: string): Promise<User> {
-    const user = await this.userModel.findById(id);
+    const user = await this.userModel
+      .findById(id)
+      .select(['email', 'fullname', '-_id'] as Array<keyof User>);
 
     if (!user) throw new NotFoundException('User not found');
 
