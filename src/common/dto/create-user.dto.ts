@@ -1,11 +1,19 @@
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  Matches,
+  MinLength,
+} from 'class-validator';
 
 import { User } from 'src/common/schemas/user.schema';
 
 import {
   emailMinLength,
+  emailRegex,
   fullnameMinLength,
   passwordMinLength,
+  passwordRegex,
 } from '../schemas/config';
 
 export class CreateUserDto implements User {
@@ -18,10 +26,12 @@ export class CreateUserDto implements User {
   @IsEmail()
   @IsNotEmpty()
   @MinLength(emailMinLength)
+  @Matches(emailRegex)
   email: string;
 
   @IsString()
   @IsNotEmpty()
   @MinLength(passwordMinLength)
+  @Matches(passwordRegex)
   password: string;
 }
