@@ -6,7 +6,7 @@ import {
   fullnameMinLength,
   passwordMinLength,
   passwordRegex,
-} from '../config';
+} from './config';
 
 @Schema({ timestamps: true })
 export class User {

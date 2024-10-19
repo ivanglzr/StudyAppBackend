@@ -11,8 +11,8 @@ import { Response } from 'express';
 
 import { AuthService } from './auth.service';
 
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import { LogInDto } from 'src/user/dto/log-in.dto';
+import { CreateUserDto } from 'src/common/dto/create-user.dto';
+import { LogInDto } from 'src/common/dto/log-in.dto';
 
 import { AUTH_ROUTES } from 'src/common/routes';
 import { accessTokenName } from 'src/common/config';

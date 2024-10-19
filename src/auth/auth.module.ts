@@ -9,7 +9,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 
-import { User, UserSchema } from 'src/user/schemas/user.schema';
+import { User, UserSchema } from 'src/common/schemas/user.schema';
 
 import { ENVIROMENT_VARIABLES } from 'src/common/config';
 

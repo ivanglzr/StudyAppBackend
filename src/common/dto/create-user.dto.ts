@@ -1,12 +1,12 @@
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
-import type { User } from '../schemas/user.schema';
+import { User } from 'src/common/schemas/user.schema';
 
 import {
   emailMinLength,
   fullnameMinLength,
   passwordMinLength,
-} from '../config';
+} from '../schemas/config';
 
 export class CreateUserDto implements User {
   @IsString()
