@@ -1,6 +1,7 @@
 import {
   ConflictException,
   Injectable,
+  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 
@@ -55,6 +56,8 @@ export class AuthService {
 
   async logInUser(login: LogInDto) {
     const user = await this.userModel.findOne({ email: login.email });
+
+    if (!user) throw new NotFoundException('User not found');
 
     const isPasswordValid = validatePassword(login.password, user.password);
 
