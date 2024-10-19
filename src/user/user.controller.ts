@@ -1,10 +1,19 @@
-import { Controller, Get, HttpStatus, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Patch,
+  UseGuards,
+} from '@nestjs/common';
 
 import { UserService } from './user.service';
 
 import { AuthGuard } from 'src/common/guards/auth.guard';
 
 import { Id } from 'src/common/decorators/id.decorator';
+
+import { ChangePasswordDto } from 'src/common/dto/change-password.dto';
 
 import { USER_ROUTES } from 'src/common/routes';
 
@@ -21,6 +30,19 @@ export class UserController {
       statusCode: HttpStatus.OK,
       message: 'User found',
       user,
+    };
+  }
+
+  @Patch(USER_ROUTES.CHANGE_PASSWORD)
+  async changePassword(
+    @Id() id: string,
+    @Body() { password, newPassword }: ChangePasswordDto,
+  ) {
+    await this.userService.changePassword(id, password, newPassword);
+
+    return {
+      HttpStatus: HttpStatus.OK,
+      message: 'Password changed',
     };
   }
 }
