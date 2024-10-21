@@ -18,6 +18,7 @@ import { User } from 'src/common/schemas/user.schema';
 
 import { validatePassword } from 'src/common/functions/validate-password.function';
 import { jwtOptions } from './config';
+import { ERROR_MESSAGES } from 'src/common/messages';
 
 @Injectable()
 export class AuthService {
@@ -41,7 +42,7 @@ export class AuthService {
   async postUser(user: CreateUserDto) {
     const emailExists = await this.emailExists(user.email);
 
-    if (emailExists) throw new ConflictException('Email already exists');
+    if (emailExists) throw new ConflictException(ERROR_MESSAGES.EMAIL_IN_USE);
 
     const hashedPassword = hashPassword(user.password);
 
@@ -58,12 +59,12 @@ export class AuthService {
   async logInUser(login: LogInDto) {
     const user = await this.userModel.findOne({ email: login.email });
 
-    if (!user) throw new NotFoundException('User not found');
+    if (!user) throw new NotFoundException(ERROR_MESSAGES.USER_NOT_FOUND);
 
     const isPasswordValid = validatePassword(login.password, user.password);
 
     if (!isPasswordValid)
-      throw new UnauthorizedException('Log in unauthorized');
+      throw new UnauthorizedException(ERROR_MESSAGES.LOG_IN_UNAUTHORIZED);
 
     return this.generateAccessToken(user._id.toString());
   }

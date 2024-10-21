@@ -13,6 +13,8 @@ import { Observable } from 'rxjs';
 
 import { accessTokenName, ENVIROMENT_VARIABLES } from '../config';
 
+import { ERROR_MESSAGES } from '../messages';
+
 @Injectable()
 export class AuthGuard implements CanActivate {
   constructor(
@@ -28,7 +30,7 @@ export class AuthGuard implements CanActivate {
     const token = req.cookies[accessTokenName];
 
     if (!token) {
-      throw new UnauthorizedException('Log in please');
+      throw new UnauthorizedException(ERROR_MESSAGES.LOG_IN_UNAUTHORIZED);
     }
 
     try {
@@ -37,14 +39,14 @@ export class AuthGuard implements CanActivate {
       });
 
       if (!decoded.id) {
-        throw new UnauthorizedException('Invalid token');
+        throw new UnauthorizedException(ERROR_MESSAGES.LOG_IN_UNAUTHORIZED);
       }
 
       req.user = { id: decoded.id };
 
       return true;
     } catch (error) {
-      throw new UnauthorizedException('Invalid token');
+      throw new UnauthorizedException(ERROR_MESSAGES.LOG_IN_UNAUTHORIZED);
     }
   }
 }
