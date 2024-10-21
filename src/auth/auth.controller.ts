@@ -18,6 +18,7 @@ import { AUTH_ROUTES } from 'src/common/routes';
 import { accessTokenName } from 'src/common/config';
 
 import { cookieOptions } from './config';
+import { RESPONSE_MESSAGES } from 'src/common/messages';
 
 @Controller(AUTH_ROUTES.BASE)
 export class AuthController {
@@ -34,7 +35,7 @@ export class AuthController {
 
     return {
       statusCode: HttpStatus.CREATED,
-      message: 'User created',
+      message: RESPONSE_MESSAGES.USER_CREATED,
     };
   }
 
@@ -50,7 +51,7 @@ export class AuthController {
 
     return {
       statusCode: HttpStatus.OK,
-      message: 'Log in successful',
+      message: RESPONSE_MESSAGES.LOG_IN_SUCCESSFUL,
     };
   }
 }

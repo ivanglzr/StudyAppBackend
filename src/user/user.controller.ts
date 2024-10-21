@@ -16,6 +16,7 @@ import { Id } from 'src/common/decorators/id.decorator';
 import { ChangePasswordDto } from 'src/common/dto/change-password.dto';
 
 import { USER_ROUTES } from 'src/common/routes';
+import { RESPONSE_MESSAGES } from 'src/common/messages';
 
 @Controller(USER_ROUTES.BASE)
 @UseGuards(AuthGuard)
@@ -28,7 +29,7 @@ export class UserController {
 
     return {
       statusCode: HttpStatus.OK,
-      message: 'User found',
+      message: RESPONSE_MESSAGES.USER_FOUND,
       user,
     };
   }
@@ -42,7 +43,7 @@ export class UserController {
 
     return {
       HttpStatus: HttpStatus.OK,
-      message: 'Password changed',
+      message: RESPONSE_MESSAGES.PASSWORD_CHANGED,
     };
   }
 }
