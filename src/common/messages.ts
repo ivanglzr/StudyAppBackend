@@ -5,3 +5,10 @@ export enum ERROR_MESSAGES {
   ID_NOT_VALID = "The id isn't valid, please use a correct one",
   PASSWORD_NOT_VALID = 'Password is incorrect, please try again',
 }
+
+export enum RESPONSE_MESSAGES {
+  USER_CREATED = 'User created successfully',
+  LOG_IN_SUCCESSFUL = 'Log in successful',
+  USER_FOUND = 'User found',
+  PASSWORD_CHANGED = 'Password changed successfully',
+}
