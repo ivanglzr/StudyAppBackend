@@ -25,7 +25,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  generateAccessToken(id: string) {
+  private generateAccessToken(id: string) {
     const payload = { id };
 
     const token = this.jwtService.sign(payload);
@@ -33,7 +33,7 @@ export class AuthService {
     return token;
   }
 
-  async emailExists(email: string): Promise<boolean> {
+  private async emailExists(email: string): Promise<boolean> {
     return !!(await this.userModel.findOne({ email }));
   }
 
