@@ -17,6 +17,7 @@ import { LogInDto } from 'src/common/dto/log-in.dto';
 import { User } from 'src/common/schemas/user.schema';
 
 import { validatePassword } from 'src/common/functions/validate-password.function';
+import { jwtOptions } from './config';
 
 @Injectable()
 export class AuthService {
@@ -28,7 +29,7 @@ export class AuthService {
   private generateAccessToken(id: string) {
     const payload = { id };
 
-    const token = this.jwtService.sign(payload);
+    const token = this.jwtService.sign(payload, jwtOptions);
 
     return token;
   }

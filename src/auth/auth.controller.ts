@@ -17,6 +17,8 @@ import { LogInDto } from 'src/common/dto/log-in.dto';
 import { AUTH_ROUTES } from 'src/common/routes';
 import { accessTokenName } from 'src/common/config';
 
+import { cookieOptions } from './config';
+
 @Controller(AUTH_ROUTES.BASE)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
@@ -28,7 +30,7 @@ export class AuthController {
   ) {
     const token = await this.authService.postUser(user);
 
-    res.cookie(accessTokenName, token);
+    res.cookie(accessTokenName, token, cookieOptions);
 
     return {
       statusCode: HttpStatus.CREATED,
@@ -44,7 +46,7 @@ export class AuthController {
   ) {
     const token = await this.authService.logInUser(login);
 
-    res.cookie(accessTokenName, token);
+    res.cookie(accessTokenName, token, cookieOptions);
 
     return {
       statusCode: HttpStatus.OK,
