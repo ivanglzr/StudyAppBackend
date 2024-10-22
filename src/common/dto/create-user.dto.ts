@@ -6,7 +6,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-import { User } from 'src/common/schemas/user.schema';
+import { User } from 'src/common/schemas/user/user.schema';
 
 import {
   emailMinLength,
@@ -14,7 +14,7 @@ import {
   fullnameMinLength,
   passwordMinLength,
   passwordRegex,
-} from '../schemas/config';
+} from '../schemas/user/config';
 
 export class CreateUserDto implements User {
   @IsString()

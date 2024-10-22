@@ -9,7 +9,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 
-import { User, UserSchema } from 'src/common/schemas/user.schema';
+import { User, UserSchema } from 'src/common/schemas/user/user.schema';
 
 import { ENVIROMENT_VARIABLES } from 'src/common/config';
 

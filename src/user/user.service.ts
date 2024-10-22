@@ -11,7 +11,7 @@ import { hashPassword } from 'src/common/functions/hash-password.function';
 import { validatePassword } from 'src/common/functions/validate-password.function';
 import { ERROR_MESSAGES } from 'src/common/messages';
 
-import { User } from 'src/common/schemas/user.schema';
+import { User } from 'src/common/schemas/user/user.schema';
 
 @Injectable()
 export class UserService {
