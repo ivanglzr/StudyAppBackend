@@ -15,6 +15,7 @@ import {
   passwordMinLength,
   passwordRegex,
 } from '../schemas/user/config';
+import { PasswordValidation } from '../decorators/password-validation.decorator';
 
 export class CreateUserDto implements User {
   @IsString()
@@ -29,9 +30,6 @@ export class CreateUserDto implements User {
   @Matches(emailRegex)
   email: string;
 
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(passwordMinLength)
-  @Matches(passwordRegex)
+  @PasswordValidation()
   password: string;
 }
