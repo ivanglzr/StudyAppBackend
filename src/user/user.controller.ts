@@ -42,7 +42,7 @@ export class UserController {
     await this.userService.changePassword(id, password, newPassword);
 
     return {
-      HttpStatus: HttpStatus.OK,
+      statusCode: HttpStatus.OK,
       message: RESPONSE_MESSAGES.PASSWORD_CHANGED,
     };
   }
