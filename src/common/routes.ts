@@ -8,3 +8,7 @@ export enum AUTH_ROUTES {
   REGISTER = '/register',
   LOG_IN = '/log-in',
 }
+
+export enum SUBJECT_ROUTES {
+  BASE = '/subject',
+}
