@@ -9,7 +9,7 @@ import {
 
 import { UserService } from './user.service';
 
-import { AuthGuard } from 'src/common/guards/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 
 import { Id } from 'src/common/decorators/id.decorator';
 

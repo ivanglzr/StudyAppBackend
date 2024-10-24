@@ -9,11 +9,9 @@ import { JwtService } from '@nestjs/jwt';
 
 import { ConfigService } from '@nestjs/config';
 
-import { Observable } from 'rxjs';
+import { accessTokenName, ENVIROMENT_VARIABLES } from 'src/common/config';
 
-import { accessTokenName, ENVIROMENT_VARIABLES } from '../config';
-
-import { ERROR_MESSAGES } from '../messages';
+import { ERROR_MESSAGES } from 'src/common/messages';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -22,9 +20,7 @@ export class AuthGuard implements CanActivate {
     private readonly configService: ConfigService,
   ) {}
 
-  canActivate(
-    context: ExecutionContext,
-  ): boolean | Promise<boolean> | Observable<boolean> {
+  canActivate(context: ExecutionContext): boolean | Promise<boolean> {
     const req = context.switchToHttp().getRequest();
 
     const token = req.cookies[accessTokenName];
