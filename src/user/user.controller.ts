@@ -13,7 +13,7 @@ import { AuthGuard } from 'src/common/guards/auth.guard';
 
 import { Id } from 'src/common/decorators/id.decorator';
 
-import { ChangePasswordDto } from 'src/common/dto/change-password.dto';
+import { ChangePasswordDto } from './dto/change-password.dto';
 
 import { USER_ROUTES } from 'src/common/routes';
 import { RESPONSE_MESSAGES } from 'src/common/messages';

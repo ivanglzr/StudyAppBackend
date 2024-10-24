@@ -1,8 +1,8 @@
 import { PickType } from '@nestjs/mapped-types';
 
-import { CreateUserDto } from './create-user.dto';
+import { CreateUserDto } from 'src/common/dto/create-user.dto';
 
-import { PasswordValidation } from '../decorators/password-validation.decorator';
+import { PasswordValidation } from 'src/common/decorators/password-validation.decorator';
 
 export class ChangePasswordDto extends PickType(CreateUserDto, [
   'password',

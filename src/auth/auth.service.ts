@@ -13,7 +13,7 @@ import { hashPassword } from 'src/common/functions/hash-password.function';
 
 import type { Model } from 'mongoose';
 import { CreateUserDto } from 'src/common/dto/create-user.dto';
-import { LogInDto } from 'src/common/dto/log-in.dto';
+import { LogInDto } from './dto/log-in.dto';
 import { User } from 'src/common/schemas/user/user.schema';
 
 import { validatePassword } from 'src/common/functions/validate-password.function';
