@@ -24,6 +24,7 @@ export class CreateSubjectDto {
   @IsNotEmpty()
   subjectName: string;
 
+  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => NoteDto)
   notes: NoteDto[];
@@ -32,10 +33,12 @@ export class CreateSubjectDto {
   @IsString({ each: true })
   documents: string[];
 
+  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => FlashcardDto)
   flashcards: FlashcardDto[];
 
+  @IsArray()
   @ValidateNested({ each: true })
   @Type(() => ExamDto)
   exams: ExamDto[];
