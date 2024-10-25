@@ -5,6 +5,8 @@ import {
   UseGuards,
   Body,
   Post,
+  Param,
+  Put,
 } from '@nestjs/common';
 
 import { SubjectService } from './subject.service';
@@ -13,7 +15,10 @@ import { AuthGuard } from 'src/user/guards/auth.guard';
 
 import { Id } from 'src/user/decorators/id.decorator';
 
+import { ValidateIdPipe } from 'src/common/pipes/validate-id.pipe';
+
 import { CreateSubjectDto } from './dto/create-subject.dto';
+import { UpdateSubjectDto } from './dto/update-subject.dto';
 
 @Controller()
 @UseGuards(AuthGuard)
@@ -38,6 +43,20 @@ export class SubjectController {
     return {
       statusCode: 201,
       message: 'Subject created',
+    };
+  }
+
+  @Put(':id')
+  async putSubject(
+    @Param('id', ValidateIdPipe) subjectId: string,
+    @Id() userId: string,
+    @Body() subject: UpdateSubjectDto,
+  ) {
+    this.subjectService.updateSubject(userId, subjectId, subject);
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Subject edited succesfully',
     };
   }
 }
