@@ -1,6 +1,5 @@
 import {
   ConflictException,
-  ForbiddenException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -44,19 +43,13 @@ export class SubjectService {
   async updateSubject(
     userId: string,
     subjectId: string,
-    partialSubject: UpdateSubjectDto,
+    subject: UpdateSubjectDto,
   ) {
-    const subject = await this.subjectModel.findById(subjectId);
+    const updatedSubject = await this.subjectModel.findOneAndUpdate(
+      { _id: subjectId, userId },
+      subject,
+    );
 
-    if (!subject) throw new NotFoundException('Subject not found');
-
-    if (subject.userId.toString() !== userId)
-      throw new ForbiddenException("You can't edit this subject");
-
-    const newSubject = { ...subject, ...partialSubject };
-
-    subject.set(newSubject);
-
-    await subject.save();
+    if (!updatedSubject) throw new NotFoundException('Subject not found');
   }
 }
