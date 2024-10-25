@@ -32,6 +32,12 @@ import { ENVIROMENT_VARIABLES } from './common/config';
       {
         path: '',
         module: UserModule,
+        children: [
+          {
+            path: '',
+            module: SubjectModule,
+          },
+        ],
       },
       {
         path: '',
