@@ -7,6 +7,7 @@ import {
   Post,
   Param,
   Put,
+  Delete,
 } from '@nestjs/common';
 
 import { SubjectService } from './subject.service';
@@ -57,6 +58,19 @@ export class SubjectController {
     return {
       statusCode: HttpStatus.OK,
       message: 'Subject edited succesfully',
+    };
+  }
+
+  @Delete(':id')
+  async deleteSubject(
+    @Id() userId: string,
+    @Param('id', ValidateIdPipe) subjectId: string,
+  ) {
+    this.subjectService.deleteSubject(userId, subjectId);
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Subject deleted successfully',
     };
   }
 }

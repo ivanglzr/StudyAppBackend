@@ -52,4 +52,13 @@ export class SubjectService {
 
     if (!updatedSubject) throw new NotFoundException('Subject not found');
   }
+
+  async deleteSubject(userId: string, subjectId: string) {
+    const deletedSubject = await this.subjectModel.findOneAndDelete({
+      _id: subjectId,
+      userId,
+    });
+
+    if (!deletedSubject) throw new NotFoundException('Subject not found');
+  }
 }
