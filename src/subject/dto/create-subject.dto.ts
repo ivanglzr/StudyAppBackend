@@ -17,10 +17,6 @@ import { ExamDto } from './exam.dto';
 
 export class CreateSubjectDto {
   @IsString()
-  @Length(24)
-  userId: string;
-
-  @IsString()
   @IsNotEmpty()
   subjectName: string;
 
