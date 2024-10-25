@@ -18,7 +18,7 @@ import { ChangePasswordDto } from './dto/change-password.dto';
 import { USER_ROUTES } from 'src/common/routes';
 import { RESPONSE_MESSAGES } from 'src/common/messages';
 
-@Controller(USER_ROUTES.BASE)
+@Controller()
 @UseGuards(AuthGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
