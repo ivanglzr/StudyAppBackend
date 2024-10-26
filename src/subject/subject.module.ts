@@ -14,6 +14,9 @@ import {
   SubjectSchema,
 } from 'src/common/schemas/subject/subject.schema';
 
+import { NoteController } from './note/note.controller';
+import { NoteService } from './note/note.service';
+
 import { ENVIROMENT_VARIABLES } from 'src/common/config';
 
 @Module({
@@ -27,7 +30,7 @@ import { ENVIROMENT_VARIABLES } from 'src/common/config';
       }),
     }),
   ],
-  controllers: [SubjectController],
-  providers: [SubjectService],
+  controllers: [SubjectController, NoteController],
+  providers: [SubjectService, NoteService],
 })
 export class SubjectModule {}
