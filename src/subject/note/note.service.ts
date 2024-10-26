@@ -21,4 +21,18 @@ export class NoteService {
 
     return subject.notes;
   }
+
+  async getNote(userId: string, subjectId: string, noteId: string) {
+    const subject = await this.subjectModel
+      .findOne({ userId, _id: subjectId })
+      .select(['notes'] as Array<keyof Subject>);
+
+    if (!subject) throw new NotFoundException('Subject not found');
+
+    const note = subject.notes.find((note) => note._id.toString() === noteId);
+
+    if (!note) throw new NotFoundException('Note not found');
+
+    return note;
+  }
 }

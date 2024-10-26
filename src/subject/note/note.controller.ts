@@ -33,4 +33,19 @@ export class NoteController {
       notes,
     };
   }
+
+  @Get(':id')
+  async getNote(
+    @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
+    @Id() userId: string,
+    @Param('id') noteId: string,
+  ) {
+    const note = await this.noteService.getNote(userId, subjectId, noteId);
+
+    return {
+      status: HttpStatus.OK,
+      message: 'Note found',
+      note,
+    };
+  }
 }
