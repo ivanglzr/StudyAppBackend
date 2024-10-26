@@ -12,7 +12,7 @@ import {
 
 import { SubjectService } from './subject.service';
 
-import { AuthGuard } from 'src/user/guards/auth.guard';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
 import { Id } from 'src/user/decorators/id.decorator';
 
