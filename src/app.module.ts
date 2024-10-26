@@ -12,6 +12,8 @@ import { SubjectModule } from './subject/subject.module';
 
 import { ENVIROMENT_VARIABLES } from './common/config';
 
+import { AUTH_ROUTES, SUBJECT_ROUTES, USER_ROUTES } from './common/routes';
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
@@ -30,11 +32,17 @@ import { ENVIROMENT_VARIABLES } from './common/config';
 
     RouterModule.register([
       {
-        path: '',
+        path: USER_ROUTES.BASE,
         module: UserModule,
+        children: [
+          {
+            path: SUBJECT_ROUTES.BASE,
+            module: SubjectModule,
+          },
+        ],
       },
       {
-        path: '',
+        path: AUTH_ROUTES.BASE,
         module: AuthModule,
       },
     ]),
