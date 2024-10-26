@@ -1,3 +1,5 @@
+import { subjectIdParamName } from 'src/subject/note/config';
+
 export enum USER_ROUTES {
   BASE = 'user',
   CHANGE_PASSWORD = 'password',
@@ -14,5 +16,5 @@ export enum SUBJECT_ROUTES {
 }
 
 export enum NOTE_ROUTES {
-  BASE = 'note',
+  BASE = `:${subjectIdParamName}/note`,
 }
