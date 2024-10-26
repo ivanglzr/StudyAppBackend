@@ -37,6 +37,20 @@ export class SubjectController {
     };
   }
 
+  @Get(':id')
+  async getSubject(@Param('id') subjectId: string, @Id() userId: string) {
+    const subject = await this.subjectService.findSubjectById(
+      userId,
+      subjectId,
+    );
+
+    return {
+      status: HttpStatus.OK,
+      message: 'Subject found',
+      subject,
+    };
+  }
+
   @Post()
   async postSubject(@Id() userId: string, @Body() subject: CreateSubjectDto) {
     this.subjectService.createSubject(userId, subject);

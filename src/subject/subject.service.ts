@@ -26,6 +26,14 @@ export class SubjectService {
     return this.subjectModel.find({ userId });
   }
 
+  async findSubjectById(userId: string, subjectId: string): Promise<Subject> {
+    const subject = await this.subjectModel.findOne({ userId, _id: subjectId });
+
+    if (!subject) throw new NotFoundException("Subject doesn't exists");
+
+    return subject;
+  }
+
   async createSubject(userId: string, subject: CreateSubjectDto) {
     if (this.subjectExists(subject.subjectName))
       throw new ConflictException(
