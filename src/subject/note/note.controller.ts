@@ -1,4 +1,12 @@
-import { Controller, Get, HttpStatus, Param, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 
 import { AuthGuard } from 'src/common/guards/auth.guard';
 
@@ -7,6 +15,8 @@ import { NoteService } from './note.service';
 import { Id } from 'src/user/decorators/id.decorator';
 
 import { ValidateIdPipe } from 'src/common/pipes/validate-id.pipe';
+
+import { NoteDto } from './dto/note.dto';
 
 import { NOTE_ROUTES } from 'src/common/routes';
 
@@ -43,9 +53,23 @@ export class NoteController {
     const note = await this.noteService.getNote(userId, subjectId, noteId);
 
     return {
-      status: HttpStatus.OK,
+      statusCode: HttpStatus.OK,
       message: 'Note found',
       note,
+    };
+  }
+
+  @Post()
+  async postNote(
+    @Id() userId: string,
+    @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
+    @Body() note: NoteDto,
+  ) {
+    this.noteService.postNote(userId, subjectId, note);
+
+    return {
+      statusCode: HttpStatus.CREATED,
+      message: 'Note created',
     };
   }
 }

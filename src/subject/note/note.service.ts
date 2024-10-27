@@ -6,6 +6,10 @@ import { Model } from 'mongoose';
 
 import { Subject } from 'src/common/schemas/subject/subject.schema';
 
+import { NoteDto } from './dto/note.dto';
+
+import { Note } from 'src/common/schemas/subject/note/note.schema';
+
 @Injectable()
 export class NoteService {
   constructor(
@@ -34,5 +38,15 @@ export class NoteService {
     if (!note) throw new NotFoundException('Note not found');
 
     return note;
+  }
+
+  async postNote(userId: string, subjectId: string, note: NoteDto) {
+    const subject = await this.subjectModel.findOne({ userId, _id: subjectId });
+
+    if (!subject) throw new NotFoundException('Subject not found');
+
+    subject.notes.push(note as Note);
+
+    await subject.save();
   }
 }
