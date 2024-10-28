@@ -35,7 +35,9 @@ export class SubjectService {
   }
 
   async createSubject(userId: string, subject: CreateSubjectDto) {
-    if (this.subjectExists(subject.subjectName))
+    const subjectExists = await this.subjectExists(subject.subjectName);
+
+    if (subjectExists)
       throw new ConflictException(
         'Subject already exists, please use another name',
       );
