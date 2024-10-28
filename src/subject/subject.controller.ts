@@ -14,7 +14,7 @@ import { SubjectService } from './subject.service';
 
 import { AuthGuard } from 'src/common/guards/auth.guard';
 
-import { Id } from 'src/user/decorators/id.decorator';
+import { Id } from 'src/common/decorators/id.decorator';
 
 import { ValidateIdPipe } from 'src/common/pipes/validate-id.pipe';
 

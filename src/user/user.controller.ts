@@ -11,7 +11,7 @@ import { UserService } from './user.service';
 
 import { AuthGuard } from '../common/guards/auth.guard';
 
-import { Id } from './decorators/id.decorator';
+import { Id } from 'src/common/decorators/id.decorator';
 
 import { ChangePasswordDto } from './dto/change-password.dto';
 
