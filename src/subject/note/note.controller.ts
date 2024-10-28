@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 
@@ -70,6 +71,21 @@ export class NoteController {
     return {
       statusCode: HttpStatus.CREATED,
       message: 'Note created',
+    };
+  }
+
+  @Put(':noteId')
+  async editNote(
+    @Id() userId: string,
+    @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
+    @Param('noteId') noteId: string,
+    @Body() note: NoteDto,
+  ) {
+    await this.noteService.updateNote(userId, subjectId, noteId, note);
+
+    return {
+      status: HttpStatus.OK,
+      message: 'Note updated',
     };
   }
 }
