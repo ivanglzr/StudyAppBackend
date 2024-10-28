@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
@@ -86,6 +87,20 @@ export class NoteController {
     return {
       status: HttpStatus.OK,
       message: 'Note updated',
+    };
+  }
+
+  @Delete(':noteId')
+  async deleteNote(
+    @Id() userId: string,
+    @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
+    @Param('noteId') noteId: string,
+  ) {
+    await this.noteService.deleteNote(userId, subjectId, noteId);
+
+    return {
+      status: HttpStatus.OK,
+      message: 'Note deleted',
     };
   }
 }

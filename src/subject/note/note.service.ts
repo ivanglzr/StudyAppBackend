@@ -66,4 +66,16 @@ export class NoteService {
 
     await subject.save();
   }
+
+  async deleteNote(userId: string, subjectId: string, noteId: string) {
+    const subject = await this.findSubject(userId, subjectId);
+
+    const noteIndex = subject.notes.findIndex(
+      (note) => note._id.toString() === noteId,
+    );
+
+    subject.notes.splice(noteIndex, 1);
+
+    await subject.save();
+  }
 }
