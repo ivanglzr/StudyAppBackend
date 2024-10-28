@@ -14,6 +14,9 @@ import {
   SubjectSchema,
 } from 'src/common/schemas/subject/subject.schema';
 
+import { NoteController } from './note/note.controller';
+import { NoteService } from './note/note.service';
+
 import { ENVIROMENT_VARIABLES } from 'src/common/config';
 
 @Module({
@@ -27,7 +30,9 @@ import { ENVIROMENT_VARIABLES } from 'src/common/config';
       }),
     }),
   ],
-  controllers: [SubjectController],
-  providers: [SubjectService],
+
+  //! Don't change the order, user/subject/note is setup first to avoid conflicts with user/subject/:id
+  controllers: [NoteController, SubjectController],
+  providers: [NoteService, SubjectService],
 })
 export class SubjectModule {}

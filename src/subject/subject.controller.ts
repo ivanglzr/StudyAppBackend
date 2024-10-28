@@ -38,7 +38,10 @@ export class SubjectController {
   }
 
   @Get(':id')
-  async getSubject(@Param('id') subjectId: string, @Id() userId: string) {
+  async getSubject(
+    @Param('id', ValidateIdPipe) subjectId: string,
+    @Id() userId: string,
+  ) {
     const subject = await this.subjectService.findSubjectById(
       userId,
       subjectId,

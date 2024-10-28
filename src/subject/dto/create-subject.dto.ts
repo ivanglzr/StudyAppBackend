@@ -9,7 +9,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 
-import { NoteDto } from './note.dto';
+import { NoteDto } from '../note/dto/note.dto';
 
 import { FlashcardDto } from './flashcard.dto';
 
