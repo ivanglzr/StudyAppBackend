@@ -56,7 +56,7 @@ export class SubjectController {
 
   @Post()
   async postSubject(@Id() userId: string, @Body() subject: CreateSubjectDto) {
-    this.subjectService.createSubject(userId, subject);
+    await this.subjectService.createSubject(userId, subject);
 
     return {
       statusCode: 201,
@@ -70,7 +70,7 @@ export class SubjectController {
     @Id() userId: string,
     @Body() subject: UpdateSubjectDto,
   ) {
-    this.subjectService.updateSubject(userId, subjectId, subject);
+    await this.subjectService.updateSubject(userId, subjectId, subject);
 
     return {
       statusCode: HttpStatus.OK,
@@ -83,7 +83,7 @@ export class SubjectController {
     @Id() userId: string,
     @Param('id', ValidateIdPipe) subjectId: string,
   ) {
-    this.subjectService.deleteSubject(userId, subjectId);
+    await this.subjectService.deleteSubject(userId, subjectId);
 
     return {
       statusCode: HttpStatus.OK,

@@ -65,7 +65,7 @@ export class NoteController {
     @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
     @Body() note: NoteDto,
   ) {
-    this.noteService.postNote(userId, subjectId, note);
+    await this.noteService.postNote(userId, subjectId, note);
 
     return {
       statusCode: HttpStatus.CREATED,
