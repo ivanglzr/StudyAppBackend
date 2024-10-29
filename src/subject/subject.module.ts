@@ -30,9 +30,7 @@ import { ENVIROMENT_VARIABLES } from 'src/common/config';
       }),
     }),
   ],
-
-  //! Don't change the order, user/subject/note is setup first to avoid conflicts with user/subject/:id
-  controllers: [NoteController, SubjectController],
-  providers: [NoteService, SubjectService],
+  controllers: [SubjectController, NoteController],
+  providers: [SubjectService, NoteService],
 })
 export class SubjectModule {}
