@@ -1,10 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { InjectModel } from '@nestjs/mongoose';
-
-import { Model } from 'mongoose';
-
-import { Subject } from 'src/common/schemas/subject/subject.schema';
+import { SubjectService } from '../subject.service';
 
 import { NoteDto } from './dto/note.dto';
 
@@ -12,26 +8,22 @@ import { Note } from 'src/common/schemas/subject/note/note.schema';
 
 @Injectable()
 export class NoteService {
-  constructor(
-    @InjectModel(Subject.name) private readonly subjectModel: Model<Subject>,
-  ) {}
-
-  async findSubject(userId: string, subjectId: string) {
-    const subject = await this.subjectModel.findOne({ userId, _id: subjectId });
-
-    if (!subject) throw new NotFoundException('Subject not found');
-
-    return subject;
-  }
+  constructor(private readonly subjectService: SubjectService) {}
 
   async getNotes(userId: string, subjectId: string) {
-    const subject = await this.findSubject(userId, subjectId);
+    const subject = await this.subjectService.findSubjectById(
+      userId,
+      subjectId,
+    );
 
     return subject.notes;
   }
 
   async getNote(userId: string, subjectId: string, noteId: string) {
-    const subject = await this.findSubject(userId, subjectId);
+    const subject = await this.subjectService.findSubjectById(
+      userId,
+      subjectId,
+    );
 
     const note = subject.notes.find((note) => note._id.toString() === noteId);
 
@@ -41,7 +33,10 @@ export class NoteService {
   }
 
   async postNote(userId: string, subjectId: string, note: NoteDto) {
-    const subject = await this.findSubject(userId, subjectId);
+    const subject = await this.subjectService.findSubjectById(
+      userId,
+      subjectId,
+    );
 
     subject.notes.push(note as Note);
 
@@ -54,7 +49,10 @@ export class NoteService {
     noteId: string,
     note: NoteDto,
   ) {
-    const subject = await this.findSubject(userId, subjectId);
+    const subject = await this.subjectService.findSubjectById(
+      userId,
+      subjectId,
+    );
 
     const noteIndex = subject.notes.findIndex(
       (note) => note._id.toString() === noteId,
@@ -68,7 +66,10 @@ export class NoteService {
   }
 
   async deleteNote(userId: string, subjectId: string, noteId: string) {
-    const subject = await this.findSubject(userId, subjectId);
+    const subject = await this.subjectService.findSubjectById(
+      userId,
+      subjectId,
+    );
 
     const noteIndex = subject.notes.findIndex(
       (note) => note._id.toString() === noteId,
