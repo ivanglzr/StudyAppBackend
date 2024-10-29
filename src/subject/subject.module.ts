@@ -17,6 +17,9 @@ import {
 import { NoteController } from './note/note.controller';
 import { NoteService } from './note/note.service';
 
+import { ExamController } from './exam/exam.controller';
+import { ExamService } from './exam/exam.service';
+
 import { ENVIROMENT_VARIABLES } from 'src/common/config';
 
 @Module({
@@ -30,7 +33,7 @@ import { ENVIROMENT_VARIABLES } from 'src/common/config';
       }),
     }),
   ],
-  controllers: [SubjectController, NoteController],
-  providers: [SubjectService, NoteService],
+  controllers: [SubjectController, NoteController, ExamController],
+  providers: [SubjectService, NoteService, ExamService],
 })
 export class SubjectModule {}
