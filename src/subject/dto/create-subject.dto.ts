@@ -13,7 +13,7 @@ import { NoteDto } from '../note/dto/note.dto';
 
 import { FlashcardDto } from './flashcard.dto';
 
-import { ExamDto } from './exam.dto';
+import { ExamDto } from '../exam/dto/exam.dto';
 
 export class CreateSubjectDto {
   @IsString()
