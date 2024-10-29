@@ -46,11 +46,11 @@ export class NoteController {
     };
   }
 
-  @Get(':id')
+  @Get(':noteId')
   async getNote(
     @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
     @Id() userId: string,
-    @Param('id') noteId: string,
+    @Param('noteId', ValidateIdPipe) noteId: string,
   ) {
     const note = await this.noteService.getNote(userId, subjectId, noteId);
 
@@ -79,7 +79,7 @@ export class NoteController {
   async editNote(
     @Id() userId: string,
     @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
-    @Param('noteId') noteId: string,
+    @Param('noteId', ValidateIdPipe) noteId: string,
     @Body() note: NoteDto,
   ) {
     await this.noteService.updateNote(userId, subjectId, noteId, note);
@@ -94,7 +94,7 @@ export class NoteController {
   async deleteNote(
     @Id() userId: string,
     @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
-    @Param('noteId') noteId: string,
+    @Param('noteId', ValidateIdPipe) noteId: string,
   ) {
     await this.noteService.deleteNote(userId, subjectId, noteId);
 
