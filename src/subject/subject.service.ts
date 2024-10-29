@@ -26,7 +26,7 @@ export class SubjectService {
     return this.subjectModel.find({ userId });
   }
 
-  async findSubjectById(userId: string, subjectId: string): Promise<Subject> {
+  async findSubjectById(userId: string, subjectId: string) {
     const subject = await this.subjectModel.findOne({ userId, _id: subjectId });
 
     if (!subject) throw new NotFoundException("Subject doesn't exists");
