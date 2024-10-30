@@ -67,4 +67,21 @@ export class ExamService {
 
     await subject.save();
   }
+
+  async deleteExam(userId: string, subjectId: string, examId: string) {
+    const subject = await this.subjectService.findSubjectById(
+      userId,
+      subjectId,
+    );
+
+    const examIndex = subject.exams.findIndex(
+      (exam) => exam._id.toString() === examId,
+    );
+
+    if (examIndex === -1) throw new NotFoundException('Exam not found');
+
+    subject.exams.splice(examIndex, 1);
+
+    await subject.save();
+  }
 }

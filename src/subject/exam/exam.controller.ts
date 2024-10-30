@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
@@ -86,6 +87,20 @@ export class ExamController {
     return {
       statusCode: HttpStatus.OK,
       message: 'Exam edited',
+    };
+  }
+
+  @Delete(':examId')
+  async deleteExam(
+    @Id() userId: string,
+    @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
+    @Param('examId', ValidateIdPipe) examId: string,
+  ) {
+    await this.examService.deleteExam(userId, subjectId, examId);
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'exam deleted',
     };
   }
 }
