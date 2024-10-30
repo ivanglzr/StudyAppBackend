@@ -30,4 +30,17 @@ export class ExamService {
 
     return exam;
   }
+
+  async postExam(userId: string, subjectId: string, examDto: ExamDto) {
+    const subject = await this.subjectService.findSubjectById(
+      userId,
+      subjectId,
+    );
+
+    const exam = examDto as Exam;
+
+    subject.exams.push(exam);
+
+    await subject.save();
+  }
 }
