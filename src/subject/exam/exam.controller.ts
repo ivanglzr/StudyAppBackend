@@ -33,4 +33,19 @@ export class ExamController {
       exams,
     };
   }
+
+  @Get(':examId')
+  async getExam(
+    @Id() userId: string,
+    @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
+    @Param('examId', ValidateIdPipe) examId: string,
+  ) {
+    const exam = await this.examService.getExam(userId, subjectId, examId);
+
+    return {
+      status: HttpStatus.OK,
+      message: 'Exam found',
+      exam,
+    };
+  }
 }
