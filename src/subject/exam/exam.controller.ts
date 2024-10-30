@@ -1,4 +1,13 @@
-import { Controller, Get, HttpStatus, Param, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpStatus,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 
 import { ExamService } from './exam.service';
 
@@ -7,6 +16,8 @@ import { AuthGuard } from 'src/common/guards/auth.guard';
 import { Id } from 'src/common/decorators/id.decorator';
 
 import { ValidateIdPipe } from 'src/common/pipes/validate-id.pipe';
+
+import { ExamDto } from './dto/exam.dto';
 
 import { subjectIdParamName } from '../note/config';
 
@@ -46,6 +57,35 @@ export class ExamController {
       status: HttpStatus.OK,
       message: 'Exam found',
       exam,
+    };
+  }
+
+  @Post()
+  async postExam(
+    @Id() userId: string,
+    @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
+    @Body() exam: ExamDto,
+  ) {
+    await this.examService.postExam(userId, subjectId, exam);
+
+    return {
+      statusCode: HttpStatus.CREATED,
+      message: 'Exam created',
+    };
+  }
+
+  @Put(':examId')
+  async putExam(
+    @Id() userId: string,
+    @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
+    @Param('examId', ValidateIdPipe) examId: string,
+    @Body() exam: ExamDto,
+  ) {
+    await this.examService.putExam(userId, subjectId, examId, exam);
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Exam edited',
     };
   }
 }

@@ -43,4 +43,28 @@ export class ExamService {
 
     await subject.save();
   }
+
+  async putExam(
+    userId: string,
+    subjectId: string,
+    examId: string,
+    examDto: ExamDto,
+  ) {
+    const subject = await this.subjectService.findSubjectById(
+      userId,
+      subjectId,
+    );
+
+    const examIndex = subject.exams.findIndex(
+      (exam) => exam._id.toString() === examId,
+    );
+
+    if (examIndex === -1) throw new NotFoundException('Exam not found');
+
+    const newExam = { ...examDto, _id: subject.exams[examIndex]._id } as Exam;
+
+    subject.exams[examIndex] = newExam;
+
+    await subject.save();
+  }
 }
