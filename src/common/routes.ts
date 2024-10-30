@@ -22,3 +22,7 @@ export enum NOTE_ROUTES {
 export enum EXAM_ROUTES {
   BASE = `:${subjectIdParamName}/exam`,
 }
+
+export enum DOCUMENT_ROUTES {
+  BASE = `:${subjectIdParamName}/document`,
+}
