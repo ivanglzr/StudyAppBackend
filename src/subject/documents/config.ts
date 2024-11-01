@@ -33,8 +33,6 @@ export const multerStorage = diskStorage({
     const ext = path.extname(file.originalname);
     const name = path.basename(file.originalname, ext);
 
-    console.log(ext);
-
     if (!allowedExtensions.includes(ext)) {
       return cb(new BadRequestException('Invalid extension'), null);
     }
