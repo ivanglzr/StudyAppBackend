@@ -1,4 +1,4 @@
-import { subjectIdParamName } from 'src/subject/note/config';
+import { subjectIdParamName } from 'src/subject/config';
 
 export enum USER_ROUTES {
   BASE = 'user',

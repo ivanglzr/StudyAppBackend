@@ -22,7 +22,7 @@ import { NoteDto } from './dto/note.dto';
 
 import { NOTE_ROUTES } from 'src/common/routes';
 
-import { subjectIdParamName } from './config';
+import { subjectIdParamName } from '../config';
 
 @Controller(NOTE_ROUTES.BASE)
 @UseGuards(AuthGuard)
