@@ -1,8 +1,10 @@
 import {
   Controller,
+  Get,
   HttpStatus,
   Param,
   Post,
+  StreamableFile,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -28,6 +30,21 @@ import { DOCUMENT_ROUTES } from 'src/common/routes';
 @UseGuards(AuthGuard)
 export class DocumentController {
   constructor(private readonly documentService: DocumentService) {}
+
+  @Get(':filename')
+  async getFile(
+    @Id() userId: string,
+    @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
+    @Param('filename') filename: string,
+  ) {
+    const file = await this.documentService.getFile(
+      userId,
+      subjectId,
+      filename,
+    );
+
+    return new StreamableFile(file);
+  }
 
   @Post()
   @UseInterceptors(
