@@ -4,7 +4,7 @@ import { diskStorage } from 'multer';
 
 import { BadRequestException } from '@nestjs/common';
 
-const destination = 'src/uploads/documents';
+export const documentsDestination = 'src/uploads/documents';
 
 const allowedExtensions = [
   '.txt',
@@ -28,7 +28,7 @@ const allowedExtensions = [
 ];
 
 export const multerStorage = diskStorage({
-  destination,
+  destination: documentsDestination,
   filename(req, file, cb) {
     const ext = path.extname(file.originalname);
     const name = path.basename(file.originalname, ext);
