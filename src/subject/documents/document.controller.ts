@@ -1,5 +1,6 @@
 import {
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
@@ -62,6 +63,20 @@ export class DocumentController {
     return {
       statusCode: HttpStatus.CREATED,
       message: 'Document uploaded',
+    };
+  }
+
+  @Delete(':filename')
+  async deleteFile(
+    @Id() userId: string,
+    @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
+    @Param('filename') filename: string,
+  ) {
+    await this.documentService.deleteFile(userId, subjectId, filename);
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'File deleted',
     };
   }
 }

@@ -3,7 +3,12 @@ import { createReadStream } from 'node:fs';
 
 import * as path from 'node:path';
 
-import { Injectable, NotFoundException, StreamableFile } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+  StreamableFile,
+} from '@nestjs/common';
 
 import { SubjectService } from '../subject.service';
 
@@ -17,14 +22,6 @@ export class DocumentService {
     const filePath = path.join(process.cwd(), documentsDestination, filename);
 
     return filePath;
-  }
-
-  async deleteFile(filename: string) {
-    try {
-      const filePath = this.getFilePath(filename);
-
-      await fs.unlink(filePath);
-    } catch (e) {}
   }
 
   async getFile(userId: string, subjectId: string, filename: string) {
@@ -56,5 +53,30 @@ export class DocumentService {
     subject.documents.push(filename);
 
     await subject.save();
+  }
+
+  async deleteFile(userId: string, subjectId: string, filename: string) {
+    const subject = await this.subjectService.findSubjectById(
+      userId,
+      subjectId,
+    );
+
+    const documentIndex = subject.documents.findIndex(
+      (document) => document === filename,
+    );
+
+    if (documentIndex === -1) throw new NotFoundException('File not found');
+
+    try {
+      const filePath = this.getFilePath(filename);
+
+      await fs.unlink(filePath);
+
+      subject.documents.splice(documentIndex, 1);
+
+      await subject.save();
+    } catch (e) {
+      throw new InternalServerErrorException('Failed to delete file');
+    }
   }
 }
