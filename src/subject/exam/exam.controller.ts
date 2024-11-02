@@ -20,7 +20,7 @@ import { ValidateIdPipe } from 'src/common/pipes/validate-id.pipe';
 
 import { ExamDto } from './dto/exam.dto';
 
-import { subjectIdParamName } from '../note/config';
+import { subjectIdParamName } from '../config';
 
 import { EXAM_ROUTES } from 'src/common/routes';
 
