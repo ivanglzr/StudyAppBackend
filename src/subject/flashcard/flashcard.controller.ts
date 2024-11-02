@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 
@@ -79,6 +80,26 @@ export class FlashcardController {
     return {
       statusCode: HttpStatus.CREATED,
       message: 'Flashcard created',
+    };
+  }
+
+  @Put(':flashcardId')
+  async putFlashcard(
+    @Id() userId: string,
+    @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
+    @Param('flashcardId', ValidateIdPipe) flashcardId: string,
+    @Body() flashcardDto: FlashcardDto,
+  ) {
+    await this.flashcardService.putFlashcard(
+      userId,
+      subjectId,
+      flashcardId,
+      flashcardDto,
+    );
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Flashcard edited',
     };
   }
 }

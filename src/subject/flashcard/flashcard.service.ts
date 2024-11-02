@@ -49,4 +49,32 @@ export class FlashcardService {
 
     await subject.save();
   }
+
+  async putFlashcard(
+    userId: string,
+    subjectId: string,
+    flashcardId: string,
+    flashcardDto: FlashcardDto,
+  ) {
+    const subject = await this.subjectService.findSubjectById(
+      userId,
+      subjectId,
+    );
+
+    const flashcardIndex = subject.flashcards.findIndex(
+      (flashcard) => flashcard._id.toString() === flashcardId,
+    );
+
+    if (flashcardIndex === -1)
+      throw new NotFoundException('Flashcard not found');
+
+    const newFlashcard = {
+      ...flashcardDto,
+      _id: subject.flashcards[flashcardIndex]._id,
+    };
+
+    subject.flashcards[flashcardIndex] = newFlashcard;
+
+    await subject.save();
+  }
 }
