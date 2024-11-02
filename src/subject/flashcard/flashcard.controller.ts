@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Param,
@@ -100,6 +101,20 @@ export class FlashcardController {
     return {
       statusCode: HttpStatus.OK,
       message: 'Flashcard edited',
+    };
+  }
+
+  @Delete(':flashcardId')
+  async deleteFlashcard(
+    @Id() userId: string,
+    @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
+    @Param('flashcardId', ValidateIdPipe) flashcardId: string,
+  ) {
+    await this.flashcardService.deleteFlashcard(userId, subjectId, flashcardId);
+
+    return {
+      status: HttpStatus.OK,
+      message: 'Flashcard deleted',
     };
   }
 }

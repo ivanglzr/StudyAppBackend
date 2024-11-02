@@ -77,4 +77,26 @@ export class FlashcardService {
 
     await subject.save();
   }
+
+  async deleteFlashcard(
+    userId: string,
+    subjectId: string,
+    flashcardId: string,
+  ) {
+    const subject = await this.subjectService.findSubjectById(
+      userId,
+      subjectId,
+    );
+
+    const flashcardIndex = subject.flashcards.findIndex(
+      (flashcard) => flashcard._id.toString() === flashcardId,
+    );
+
+    if (flashcardIndex === -1)
+      throw new NotFoundException('Flashcard not found');
+
+    subject.flashcards.splice(flashcardIndex, 1);
+
+    await subject.save();
+  }
 }
