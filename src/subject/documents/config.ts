@@ -4,7 +4,7 @@ import { diskStorage } from 'multer';
 
 import { BadRequestException } from '@nestjs/common';
 
-export const documentsDestination = 'src/uploads/documents';
+export const documentsDestination = 'uploads/documents';
 
 const allowedExtensions = [
   '.txt',
