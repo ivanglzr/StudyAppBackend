@@ -12,9 +12,8 @@ import {
   emailMinLength,
   emailRegex,
   fullnameMinLength,
-  passwordMinLength,
-  passwordRegex,
 } from '../schemas/user/config';
+
 import { PasswordValidation } from '../decorators/password-validation.decorator';
 
 export class CreateUserDto implements User {
