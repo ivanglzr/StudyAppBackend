@@ -49,6 +49,25 @@ export class FlashcardController {
     };
   }
 
+  @Get(':flashcardId')
+  async getFlashcard(
+    @Id() userId: string,
+    @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
+    @Param('flashcardId', ValidateIdPipe) flashcardId: string,
+  ) {
+    const flashcard = await this.flashcardService.getFlashcard(
+      userId,
+      subjectId,
+      flashcardId,
+    );
+
+    return {
+      status: HttpStatus.OK,
+      message: 'Flashcard found',
+      flashcard,
+    };
+  }
+
   @Post()
   async postFlashcard(
     @Id() userId: string,

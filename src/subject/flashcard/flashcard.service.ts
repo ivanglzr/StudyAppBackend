@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { SubjectService } from 'src/subject/subject.service';
 
@@ -16,6 +16,21 @@ export class FlashcardService {
     );
 
     return flashcards;
+  }
+
+  async getFlashcard(userId: string, subjectId: string, flashcardId: string) {
+    const { flashcards } = await this.subjectService.findSubjectById(
+      userId,
+      subjectId,
+    );
+
+    const flashcard = flashcards.find(
+      (flashcard) => flashcard._id.toString() === flashcardId,
+    );
+
+    if (!flashcard) throw new NotFoundException('Flashcard not found');
+
+    return flashcard;
   }
 
   async postFlashcard(
