@@ -23,6 +23,9 @@ import { ExamService } from './exam/exam.service';
 import { DocumentController } from './documents/document.controller';
 import { DocumentService } from './documents/document.service';
 
+import { FlashcardController } from './flashcard/flashcard.controller';
+import { FlashcardService } from './flashcard/flashcard.service';
+
 import { ENVIROMENT_VARIABLES } from 'src/common/config';
 
 @Module({
@@ -41,7 +44,14 @@ import { ENVIROMENT_VARIABLES } from 'src/common/config';
     NoteController,
     ExamController,
     DocumentController,
+    FlashcardController,
   ],
-  providers: [SubjectService, NoteService, ExamService, DocumentService],
+  providers: [
+    SubjectService,
+    NoteService,
+    ExamService,
+    DocumentService,
+    FlashcardService,
+  ],
 })
 export class SubjectModule {}

@@ -26,3 +26,7 @@ export enum EXAM_ROUTES {
 export enum DOCUMENT_ROUTES {
   BASE = `:${subjectIdParamName}/document`,
 }
+
+export enum FLASHCARD_ROUTES {
+  BASE = `:${subjectIdParamName}/flashcard`,
+}
