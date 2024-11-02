@@ -36,9 +36,15 @@ export class DocumentService {
     if (!documents.includes(filename))
       throw new NotFoundException('File not found');
 
-    const file = createReadStream(this.getFilePath(filename));
+    const filePath = this.getFilePath(filename);
 
-    return file;
+    try {
+      await fs.access(filePath);
+    } catch (error) {
+      throw new NotFoundException('File not found');
+    }
+
+    return createReadStream(filePath);
   }
 
   async postDocument(userId: string, subjectId: string, filename: string) {
