@@ -6,6 +6,8 @@ import { NoteDto } from './dto/note.dto';
 
 import { Note } from 'src/common/schemas/subject/note/note.schema';
 
+import { ERROR_MESSAGES } from 'src/common/messages';
+
 @Injectable()
 export class NoteService {
   constructor(private readonly subjectService: SubjectService) {}
@@ -27,7 +29,7 @@ export class NoteService {
 
     const note = subject.notes.find((note) => note._id.toString() === noteId);
 
-    if (!note) throw new NotFoundException('Note not found');
+    if (!note) throw new NotFoundException(ERROR_MESSAGES.NOTE_NOT_FOUND);
 
     return note;
   }
@@ -58,7 +60,8 @@ export class NoteService {
       (note) => note._id.toString() === noteId,
     );
 
-    if (noteIndex === -1) throw new NotFoundException('Note not found');
+    if (noteIndex === -1)
+      throw new NotFoundException(ERROR_MESSAGES.NOTE_NOT_FOUND);
 
     subject.notes[noteIndex] = { _id: subject.notes[noteIndex]._id, ...note };
 

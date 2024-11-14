@@ -24,6 +24,8 @@ import { NOTE_ROUTES } from 'src/common/routes';
 
 import { subjectIdParamName } from '../config';
 
+import { RESPONSE_MESSAGES } from 'src/common/messages';
+
 @Controller(NOTE_ROUTES.BASE)
 @UseGuards(AuthGuard)
 export class NoteController {
@@ -37,7 +39,11 @@ export class NoteController {
     const notes = await this.noteService.getNotes(userId, subjectId);
 
     const message =
-      notes.length === 0 ? "There isn't any notes" : 'Notes found';
+      notes.length === 0
+        ? RESPONSE_MESSAGES.NO_NOTES_FOUND
+        : notes.length === 1
+          ? RESPONSE_MESSAGES.NOTE_FOUND
+          : RESPONSE_MESSAGES.NOTES_FOUND;
 
     return {
       statusCode: HttpStatus.OK,
@@ -56,7 +62,7 @@ export class NoteController {
 
     return {
       statusCode: HttpStatus.OK,
-      message: 'Note found',
+      message: RESPONSE_MESSAGES.NOTE_FOUND,
       note,
     };
   }
@@ -71,7 +77,7 @@ export class NoteController {
 
     return {
       statusCode: HttpStatus.CREATED,
-      message: 'Note created',
+      message: RESPONSE_MESSAGES.NOTE_CREATED,
     };
   }
 
@@ -86,7 +92,7 @@ export class NoteController {
 
     return {
       status: HttpStatus.OK,
-      message: 'Note updated',
+      message: RESPONSE_MESSAGES.NOTE_EDITED,
     };
   }
 
@@ -100,7 +106,7 @@ export class NoteController {
 
     return {
       status: HttpStatus.OK,
-      message: 'Note deleted',
+      message: RESPONSE_MESSAGES.NOTE_DELETED,
     };
   }
 }
