@@ -21,6 +21,8 @@ import { ValidateIdPipe } from 'src/common/pipes/validate-id.pipe';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
 
+import { RESPONSE_MESSAGES } from 'src/common/messages';
+
 @Controller()
 @UseGuards(AuthGuard)
 export class SubjectController {
@@ -30,9 +32,16 @@ export class SubjectController {
   async getSubjects(@Id() userId: string) {
     const subjects = await this.subjectService.findAll(userId);
 
+    const message =
+      subjects.length === 0
+        ? RESPONSE_MESSAGES.NO_SUBJECTS_FOUND
+        : subjects.length === 1
+          ? RESPONSE_MESSAGES.SUBJECT_FOUND
+          : RESPONSE_MESSAGES.SUBJECTS_FOUND;
+
     return {
       statusCode: HttpStatus.OK,
-      message: 'Subjects found',
+      message,
       subjects,
     };
   }
@@ -49,7 +58,7 @@ export class SubjectController {
 
     return {
       status: HttpStatus.OK,
-      message: 'Subject found',
+      message: RESPONSE_MESSAGES.SUBJECT_FOUND,
       subject,
     };
   }
@@ -60,7 +69,7 @@ export class SubjectController {
 
     return {
       statusCode: 201,
-      message: 'Subject created',
+      message: RESPONSE_MESSAGES.SUBJECT_CREATED,
     };
   }
 
@@ -74,7 +83,7 @@ export class SubjectController {
 
     return {
       statusCode: HttpStatus.OK,
-      message: 'Subject edited succesfully',
+      message: RESPONSE_MESSAGES.SUBJECT_EDITED,
     };
   }
 
@@ -87,7 +96,7 @@ export class SubjectController {
 
     return {
       statusCode: HttpStatus.OK,
-      message: 'Subject deleted successfully',
+      message: RESPONSE_MESSAGES.SUBJECT_DELETED,
     };
   }
 }

@@ -12,6 +12,8 @@ import { Subject } from 'src/common/schemas/subject/subject.schema';
 import { CreateSubjectDto } from './dto/create-subject.dto';
 import { UpdateSubjectDto } from './dto/update-subject.dto';
 
+import { ERROR_MESSAGES } from 'src/common/messages';
+
 @Injectable()
 export class SubjectService {
   constructor(
@@ -29,7 +31,7 @@ export class SubjectService {
   async findSubjectById(userId: string, subjectId: string) {
     const subject = await this.subjectModel.findOne({ userId, _id: subjectId });
 
-    if (!subject) throw new NotFoundException("Subject doesn't exists");
+    if (!subject) throw new NotFoundException(ERROR_MESSAGES.SUBJECT_NOT_FOUND);
 
     return subject;
   }
@@ -38,9 +40,7 @@ export class SubjectService {
     const subjectExists = await this.subjectExists(subject.subjectName);
 
     if (subjectExists)
-      throw new ConflictException(
-        'Subject already exists, please use another name',
-      );
+      throw new ConflictException(ERROR_MESSAGES.SUBJECT_EXISTS);
 
     const newSubject = new this.subjectModel({
       userId,
@@ -60,7 +60,8 @@ export class SubjectService {
       subject,
     );
 
-    if (!updatedSubject) throw new NotFoundException('Subject not found');
+    if (!updatedSubject)
+      throw new NotFoundException(ERROR_MESSAGES.SUBJECT_NOT_FOUND);
   }
 
   async deleteSubject(userId: string, subjectId: string) {
@@ -69,6 +70,7 @@ export class SubjectService {
       userId,
     });
 
-    if (!deletedSubject) throw new NotFoundException('Subject not found');
+    if (!deletedSubject)
+      throw new NotFoundException(ERROR_MESSAGES.SUBJECT_NOT_FOUND);
   }
 }
