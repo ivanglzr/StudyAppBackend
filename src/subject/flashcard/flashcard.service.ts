@@ -5,6 +5,8 @@ import { SubjectService } from 'src/subject/subject.service';
 import { FlashcardDto } from './dto/flashcard.dto';
 import { Flashcard } from 'src/common/schemas/subject/flashcard/flashcard.schema';
 
+import { ERROR_MESSAGES } from 'src/common/messages';
+
 @Injectable()
 export class FlashcardService {
   constructor(private readonly subjectService: SubjectService) {}
@@ -28,7 +30,8 @@ export class FlashcardService {
       (flashcard) => flashcard._id.toString() === flashcardId,
     );
 
-    if (!flashcard) throw new NotFoundException('Flashcard not found');
+    if (!flashcard)
+      throw new NotFoundException(ERROR_MESSAGES.FLASHCARD_NOT_FOUND);
 
     return flashcard;
   }
@@ -66,7 +69,7 @@ export class FlashcardService {
     );
 
     if (flashcardIndex === -1)
-      throw new NotFoundException('Flashcard not found');
+      throw new NotFoundException(ERROR_MESSAGES.FLASHCARD_NOT_FOUND);
 
     const newFlashcard = {
       ...flashcardDto,
@@ -93,7 +96,7 @@ export class FlashcardService {
     );
 
     if (flashcardIndex === -1)
-      throw new NotFoundException('Flashcard not found');
+      throw new NotFoundException(ERROR_MESSAGES.FLASHCARD_NOT_FOUND);
 
     subject.flashcards.splice(flashcardIndex, 1);
 

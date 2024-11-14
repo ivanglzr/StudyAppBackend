@@ -24,6 +24,8 @@ import { subjectIdParamName } from '../config';
 
 import { FLASHCARD_ROUTES } from 'src/common/routes';
 
+import { RESPONSE_MESSAGES } from 'src/common/messages';
+
 @Controller(FLASHCARD_ROUTES.BASE)
 @UseGuards(AuthGuard)
 export class FlashcardController {
@@ -41,8 +43,10 @@ export class FlashcardController {
 
     const message =
       flashcards.length === 0
-        ? "There isn't any flashcards"
-        : 'Flashcards found';
+        ? RESPONSE_MESSAGES.NO_FLASHCARDS_FOUND
+        : flashcards.length === 1
+          ? RESPONSE_MESSAGES.FLASHCARD_FOUND
+          : RESPONSE_MESSAGES.FLASHCARDS_FOUND;
 
     return {
       statusCode: HttpStatus.OK,
@@ -65,7 +69,7 @@ export class FlashcardController {
 
     return {
       status: HttpStatus.OK,
-      message: 'Flashcard found',
+      message: RESPONSE_MESSAGES.FLASHCARD_FOUND,
       flashcard,
     };
   }
@@ -80,7 +84,7 @@ export class FlashcardController {
 
     return {
       statusCode: HttpStatus.CREATED,
-      message: 'Flashcard created',
+      message: RESPONSE_MESSAGES.FLASHCARD_CREATED,
     };
   }
 
@@ -100,7 +104,7 @@ export class FlashcardController {
 
     return {
       statusCode: HttpStatus.OK,
-      message: 'Flashcard edited',
+      message: RESPONSE_MESSAGES.FLASHCARD_EDITED,
     };
   }
 
@@ -114,7 +118,7 @@ export class FlashcardController {
 
     return {
       status: HttpStatus.OK,
-      message: 'Flashcard deleted',
+      message: RESPONSE_MESSAGES.FLASHCARD_DELETED,
     };
   }
 }
