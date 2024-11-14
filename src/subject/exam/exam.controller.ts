@@ -24,6 +24,8 @@ import { subjectIdParamName } from '../config';
 
 import { EXAM_ROUTES } from 'src/common/routes';
 
+import { RESPONSE_MESSAGES } from 'src/common/messages';
+
 @Controller(EXAM_ROUTES.BASE)
 @UseGuards(AuthGuard)
 export class ExamController {
@@ -37,7 +39,11 @@ export class ExamController {
     const exams = await this.examService.getExams(userId, subjectId);
 
     const message =
-      exams.length === 0 ? "There isn't any exams" : 'Exams found';
+      exams.length === 0
+        ? RESPONSE_MESSAGES.NO_EXAMS_FOUND
+        : exams.length === 1
+          ? RESPONSE_MESSAGES.EXAM_FOUND
+          : RESPONSE_MESSAGES.EXAMS_FOUND;
 
     return {
       statusCode: HttpStatus.OK,
@@ -56,7 +62,7 @@ export class ExamController {
 
     return {
       status: HttpStatus.OK,
-      message: 'Exam found',
+      message: RESPONSE_MESSAGES.EXAM_FOUND,
       exam,
     };
   }
@@ -71,7 +77,7 @@ export class ExamController {
 
     return {
       statusCode: HttpStatus.CREATED,
-      message: 'Exam created',
+      message: RESPONSE_MESSAGES.EXAM_CREATED,
     };
   }
 
@@ -86,7 +92,7 @@ export class ExamController {
 
     return {
       statusCode: HttpStatus.OK,
-      message: 'Exam edited',
+      message: RESPONSE_MESSAGES.EXAM_EDITED,
     };
   }
 
@@ -100,7 +106,7 @@ export class ExamController {
 
     return {
       statusCode: HttpStatus.OK,
-      message: 'exam deleted',
+      message: RESPONSE_MESSAGES.EXAM_DELETED,
     };
   }
 }

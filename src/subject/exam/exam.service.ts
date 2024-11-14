@@ -5,6 +5,8 @@ import { SubjectService } from '../subject.service';
 import { ExamDto } from './dto/exam.dto';
 import { Exam } from 'src/common/schemas/subject/exam/exam.schema';
 
+import { ERROR_MESSAGES } from 'src/common/messages';
+
 @Injectable()
 export class ExamService {
   constructor(private readonly subjectService: SubjectService) {}
@@ -26,7 +28,7 @@ export class ExamService {
 
     const exam = exams.find((exam) => exam._id.toString() === examId);
 
-    if (!exam) throw new NotFoundException('Exam not found');
+    if (!exam) throw new NotFoundException(ERROR_MESSAGES.EXAM_NOT_FOUND);
 
     return exam;
   }
@@ -59,7 +61,8 @@ export class ExamService {
       (exam) => exam._id.toString() === examId,
     );
 
-    if (examIndex === -1) throw new NotFoundException('Exam not found');
+    if (examIndex === -1)
+      throw new NotFoundException(ERROR_MESSAGES.EXAM_NOT_FOUND);
 
     const newExam = { ...examDto, _id: subject.exams[examIndex]._id } as Exam;
 
@@ -78,7 +81,8 @@ export class ExamService {
       (exam) => exam._id.toString() === examId,
     );
 
-    if (examIndex === -1) throw new NotFoundException('Exam not found');
+    if (examIndex === -1)
+      throw new NotFoundException(ERROR_MESSAGES.EXAM_NOT_FOUND);
 
     subject.exams.splice(examIndex, 1);
 
