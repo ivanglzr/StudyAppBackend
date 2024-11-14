@@ -7,12 +7,13 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
-  StreamableFile,
 } from '@nestjs/common';
 
 import { SubjectService } from '../subject.service';
 
 import { documentsDestination } from './config';
+
+import { ERROR_MESSAGES } from 'src/common/messages';
 
 @Injectable()
 export class DocumentService {
@@ -24,21 +25,21 @@ export class DocumentService {
     return filePath;
   }
 
-  async getFile(userId: string, subjectId: string, filename: string) {
+  async getDocument(userId: string, subjectId: string, filename: string) {
     const { documents } = await this.subjectService.findSubjectById(
       userId,
       subjectId,
     );
 
     if (!documents.includes(filename))
-      throw new NotFoundException('File not found');
+      throw new NotFoundException(ERROR_MESSAGES.DOCUMENT_NOT_FOUND);
 
     const filePath = this.getFilePath(filename);
 
     try {
       await fs.access(filePath);
     } catch (error) {
-      throw new NotFoundException('File not found');
+      throw new NotFoundException(ERROR_MESSAGES.DOCUMENT_NOT_FOUND);
     }
 
     return createReadStream(filePath);
@@ -55,7 +56,7 @@ export class DocumentService {
     await subject.save();
   }
 
-  async deleteFile(userId: string, subjectId: string, filename: string) {
+  async deleteDocument(userId: string, subjectId: string, filename: string) {
     const subject = await this.subjectService.findSubjectById(
       userId,
       subjectId,
@@ -65,7 +66,8 @@ export class DocumentService {
       (document) => document === filename,
     );
 
-    if (documentIndex === -1) throw new NotFoundException('File not found');
+    if (documentIndex === -1)
+      throw new NotFoundException(ERROR_MESSAGES.DOCUMENT_NOT_FOUND);
 
     try {
       const filePath = this.getFilePath(filename);
@@ -76,7 +78,9 @@ export class DocumentService {
 
       await subject.save();
     } catch (e) {
-      throw new InternalServerErrorException('Failed to delete file');
+      throw new InternalServerErrorException(
+        ERROR_MESSAGES.FAILED_TO_DELETE_DOCUMENT,
+      );
     }
   }
 }

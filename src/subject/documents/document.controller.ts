@@ -27,6 +27,8 @@ import { subjectIdParamName } from '../config';
 
 import { DOCUMENT_ROUTES } from 'src/common/routes';
 
+import { RESPONSE_MESSAGES } from 'src/common/messages';
+
 @Controller(DOCUMENT_ROUTES.BASE)
 @UseGuards(AuthGuard)
 export class DocumentController {
@@ -38,7 +40,7 @@ export class DocumentController {
     @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
     @Param('filename') filename: string,
   ) {
-    const file = await this.documentService.getFile(
+    const file = await this.documentService.getDocument(
       userId,
       subjectId,
       filename,
@@ -62,7 +64,7 @@ export class DocumentController {
 
     return {
       statusCode: HttpStatus.CREATED,
-      message: 'Document uploaded',
+      message: RESPONSE_MESSAGES.DOCUMENT_UPLOADED,
     };
   }
 
@@ -72,11 +74,11 @@ export class DocumentController {
     @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
     @Param('filename') filename: string,
   ) {
-    await this.documentService.deleteFile(userId, subjectId, filename);
+    await this.documentService.deleteDocument(userId, subjectId, filename);
 
     return {
       statusCode: HttpStatus.OK,
-      message: 'File deleted',
+      message: RESPONSE_MESSAGES.DOCUMENT_DELETED,
     };
   }
 }
