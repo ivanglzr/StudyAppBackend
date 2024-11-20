@@ -44,6 +44,7 @@ export class SubjectService {
 
     const newSubject = new this.subjectModel({
       userId,
+      documents: [],
       ...subject,
     });
 

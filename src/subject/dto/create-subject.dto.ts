@@ -5,7 +5,6 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
-  Length,
   ValidateNested,
 } from 'class-validator';
 
@@ -24,10 +23,6 @@ export class CreateSubjectDto {
   @ValidateNested({ each: true })
   @Type(() => NoteDto)
   notes: NoteDto[];
-
-  @IsArray()
-  @IsString({ each: true })
-  documents: string[];
 
   @IsArray()
   @ValidateNested({ each: true })
