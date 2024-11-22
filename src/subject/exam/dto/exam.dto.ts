@@ -1,10 +1,16 @@
-import { IsDate, IsNotEmpty, IsString } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
 
 export class ExamDto {
   @IsString()
   @IsNotEmpty()
   title: string;
 
-  @IsDate()
+  @IsDateString()
   date: Date;
+
+  constructor(exam: ExamDto) {
+    Object.assign(this, exam);
+
+    this.date = new Date(this.date);
+  }
 }
