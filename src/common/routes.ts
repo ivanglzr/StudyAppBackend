@@ -15,6 +15,10 @@ export enum SUBJECT_ROUTES {
   BASE = 'subject',
 }
 
+export enum STATS_ROUTES {
+  BASE = 'stats',
+}
+
 export enum NOTE_ROUTES {
   BASE = `:${subjectIdParamName}/note`,
 }
