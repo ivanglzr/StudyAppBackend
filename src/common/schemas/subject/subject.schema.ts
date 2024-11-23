@@ -29,6 +29,8 @@ export class Subject {
 
   @Prop({ default: '#fff' })
   color: string;
+
+  _id: mongoose.Types.ObjectId;
 }
 
 export const SubjectSchema = SchemaFactory.createForClass(Subject);
