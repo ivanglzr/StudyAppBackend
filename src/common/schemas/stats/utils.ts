@@ -1,4 +1,5 @@
 import { Subject } from '../subject/subject.schema';
+import { LearnedFlashcards } from './learnedFlashcards/learnedFlashcards.schema';
 
 export const countTotalFlashcards = (subjects: Subject[]) =>
   subjects.reduce((acc, curr) => acc + curr.flashcards.length, 0);
@@ -20,7 +21,7 @@ export const countLearnedFlashcardsPerSubject = (subjects: Subject[]) =>
     );
 
     return {
-      percentage: learned / total,
+      percentage: total !== 0 ? learned / total : 0,
       total,
       subjectId: subject._id,
     };
@@ -30,16 +31,19 @@ export function getFlashcardStats(subjects: Subject[]) {
   const learnedFlashcardsPerSubject =
     countLearnedFlashcardsPerSubject(subjects);
 
-  const [totalFlashcards, learnedFlashcards] = [
-    countTotalFlashcards(subjects),
-    countLearnedFlashcards(subjects),
-  ];
+  const totalFlashcards = countTotalFlashcards(subjects);
 
-  const flashcardsStats = {
-    subjects: learnedFlashcardsPerSubject,
-    percentage: learnedFlashcards / totalFlashcards,
-    total: totalFlashcards,
-  };
+  const learnedFlashcards = countLearnedFlashcards(subjects);
+
+  console.log('Total', totalFlashcards);
+  console.log('Learned', learnedFlashcards);
+
+  const flashcardsStats = new LearnedFlashcards();
+  flashcardsStats.totalFlashcards = totalFlashcards;
+  flashcardsStats.learnedFlashcardsPercentage =
+    totalFlashcards !== 0 ? learnedFlashcards / totalFlashcards : 0;
+  flashcardsStats.subjectsFlashcardsStats = learnedFlashcardsPerSubject;
+  flashcardsStats.learnedFlashcards = learnedFlashcards;
 
   return flashcardsStats;
 }
