@@ -10,6 +10,8 @@ import {
   passwordMinLength,
   passwordRegex,
 } from './config';
+import { LearnedFlashcards } from '../stats/learnedFlashcards/learnedFlashcards.schema';
+
 @Schema({ timestamps: true })
 export class User {
   @Prop({ required: true, trim: true, minlength: fullnameMinLength })
@@ -40,10 +42,11 @@ UserSchema.pre('save', async function (next) {
 
   const statsModel: Model<Stats> = this.db.model(Stats.name);
 
-  const emptyFlashcardStats = {
-    percentage: 0,
-    total: 0,
-    subjects: [],
+  const emptyFlashcardStats: LearnedFlashcards = {
+    learnedFlashcardsPercentage: 0,
+    totalFlashcards: 0,
+    learnedFlashcards: 0,
+    subjectsFlashcardsStats: [],
   };
 
   try {
