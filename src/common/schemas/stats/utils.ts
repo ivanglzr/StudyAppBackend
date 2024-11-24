@@ -1,4 +1,4 @@
-import { Subject } from './subject/subject.schema';
+import { Subject } from '../subject/subject.schema';
 
 export const countTotalFlashcards = (subjects: Subject[]) =>
   subjects.reduce((acc, curr) => acc + curr.flashcards.length, 0);

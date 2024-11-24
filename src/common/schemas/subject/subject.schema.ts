@@ -9,7 +9,7 @@ import { Exam, ExamSchema } from './exam/exam.schema';
 import { Stats } from '../stats/stats.schema';
 
 import { LearnedFlashcards } from '../stats/learnedFlashcards/learnedFlashcards.schema';
-import { getFlashcardStats } from '../utils';
+import { getFlashcardStats } from '../stats/utils';
 
 @Schema({ timestamps: true })
 export class Subject {
