@@ -20,8 +20,8 @@ export class SubjectService {
     @InjectModel(Subject.name) private readonly subjectModel: Model<Subject>,
   ) {}
 
-  async subjectExists(subjectName: string): Promise<boolean> {
-    return !!(await this.subjectModel.findOne({ subjectName }));
+  async subjectExists(userId: string, subjectName: string): Promise<boolean> {
+    return !!(await this.subjectModel.findOne({ userId, subjectName }));
   }
 
   async findAll(userId: string) {
@@ -37,7 +37,7 @@ export class SubjectService {
   }
 
   async createSubject(userId: string, subject: CreateSubjectDto) {
-    const subjectExists = await this.subjectExists(subject.subjectName);
+    const subjectExists = await this.subjectExists(userId, subject.subjectName);
 
     if (subjectExists)
       throw new ConflictException(ERROR_MESSAGES.SUBJECT_EXISTS);
