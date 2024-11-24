@@ -40,14 +40,20 @@ export const SubjectSchema = SchemaFactory.createForClass(Subject);
 
 SubjectSchema.pre('save', async function (next) {
   const statsModel: mongoose.Model<Stats> = this.db.model(Stats.name);
-  const subjects = await this.model().find({ userId: this.userId });
-
   const userStats = await statsModel.findOne({ userId: this.userId });
 
   if (!userStats) {
     console.error(`[!] A user doesn't have stats. User Id: ${this.userId}`);
     return next();
   }
+
+  if (this.isNew)
+    userStats.subjectStats.push({ subjectId: this._id, studyTime: 0 });
+
+  //TODO: don't update all subjects stats when a subject is modified, optimize it
+
+  const subjects = await this.model().find({ userId: this.userId });
+  subjects.push(this);
 
   const flashcardStats = getFlashcardStats(subjects);
 
