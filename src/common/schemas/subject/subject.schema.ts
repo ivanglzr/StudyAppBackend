@@ -8,7 +8,6 @@ import { Flashcard, FlashcardSchema } from './flashcard/flashcard.schema';
 import { Exam, ExamSchema } from './exam/exam.schema';
 import { Stats } from '../stats/stats.schema';
 
-import { LearnedFlashcards } from '../stats/learnedFlashcards/learnedFlashcards.schema';
 import { getFlashcardStats } from '../stats/utils';
 
 @Schema({ timestamps: true })
@@ -41,7 +40,7 @@ export const SubjectSchema = SchemaFactory.createForClass(Subject);
 
 SubjectSchema.pre('save', async function (next) {
   const statsModel: mongoose.Model<Stats> = this.db.model(Stats.name);
-  const subjects = this.model().find({ userId: this.userId });
+  const subjects = await this.model().find({ userId: this.userId });
 
   const userStats = await statsModel.findOne({ userId: this.userId });
 
@@ -50,9 +49,9 @@ SubjectSchema.pre('save', async function (next) {
     return;
   }
 
-  const flashcardStats = getFlashcardStats(subjects as unknown as Subject[]);
+  const flashcardStats = getFlashcardStats(subjects);
 
-  userStats.learnedFlashcards = flashcardStats as unknown as LearnedFlashcards;
+  userStats.learnedFlashcards = flashcardStats;
 
   await userStats.save();
 });
