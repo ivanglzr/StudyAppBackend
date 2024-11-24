@@ -1,24 +1,51 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+
+import { Stats } from 'src/common/schemas/stats/stats.schema';
+
+import { ERROR_MESSAGES } from 'src/common/messages';
+import { UpdateSubjectStudyTimeDto } from './dto/update-subject-study-time.dto';
 
 @Injectable()
 export class StatsService {
-  create() {
-    return 'This action adds a new stat';
+  constructor(
+    @InjectModel(Stats.name) private readonly statsModel: Model<Stats>,
+  ) {}
+
+  async getStats(userId: string) {
+    const userStats = await this.statsModel.findOne({ userId });
+
+    if (!userStats) throw new NotFoundException(ERROR_MESSAGES.STATS_NOT_FOUND);
+
+    return userStats;
   }
 
-  findAll() {
-    return `This action returns all stats`;
+  async getStatsById(userId: string, id: string) {
+    const stats = await this.statsModel.findOne({ _id: id, userId });
+
+    if (!stats) throw new NotFoundException(ERROR_MESSAGES.STATS_NOT_FOUND);
+
+    return stats;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} stat`;
-  }
+  async updateSubjectStudyTime(
+    userId: string,
+    subjectId: string,
+    { studyTime }: UpdateSubjectStudyTimeDto,
+  ) {
+    const userStats = await this.getStats(userId);
 
-  update(id: number) {
-    return `This action updates a #${id} stat`;
-  }
+    const subjectIndex = userStats.subjectStats.findIndex(
+      (subject) => subject.subjectId.toString() === subjectId,
+    );
 
-  remove(id: number) {
-    return `This action removes a #${id} stat`;
+    if (subjectIndex === -1)
+      throw new NotFoundException(ERROR_MESSAGES.SUBJECT_NOT_FOUND);
+
+    userStats.subjectStats[subjectIndex].studyTime += studyTime;
+
+    await userStats.save();
   }
 }
