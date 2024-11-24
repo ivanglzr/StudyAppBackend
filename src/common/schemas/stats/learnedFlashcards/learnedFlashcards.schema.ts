@@ -10,7 +10,7 @@ class LearnedFlashcardsPerSubject {
     ref: Subject.name,
     required: true,
   })
-  subjectId: Subject;
+  subjectId: Subject | mongoose.Schema.Types.ObjectId;
 
   @Prop()
   percentage: number;
@@ -26,13 +26,16 @@ const LearnedFlashcardsPerSubjectSchema = SchemaFactory.createForClass(
 @Schema()
 export class LearnedFlashcards {
   @Prop({ required: true })
-  percentage: number;
+  learnedFlashcardsPercentage: number;
 
   @Prop({ required: true })
-  total: number;
+  totalFlashcards: number;
+
+  @Prop({ required: true })
+  learnedFlashcards: number;
 
   @Prop({ type: [LearnedFlashcardsPerSubjectSchema] })
-  subjects: LearnedFlashcardsPerSubject[];
+  subjectsFlashcardsStats: LearnedFlashcardsPerSubject[];
 }
 
 export const LearnedFlashcardsSchema =
