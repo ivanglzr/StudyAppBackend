@@ -3,7 +3,7 @@ import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
 
 import { Subject } from 'src/common/schemas/subject/subject.schema';
 
-@Schema()
+@Schema({ _id: false })
 class LearnedFlashcardsPerSubject {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
@@ -24,7 +24,7 @@ const LearnedFlashcardsPerSubjectSchema = SchemaFactory.createForClass(
   LearnedFlashcardsPerSubject,
 );
 
-@Schema()
+@Schema({ _id: false })
 export class LearnedFlashcards {
   @Prop({ required: true })
   learnedFlashcardsPercentage: number;
