@@ -46,7 +46,7 @@ SubjectSchema.pre('save', async function (next) {
 
   if (!userStats) {
     console.error(`[!] A user doesn't have stats. User Id: ${this.userId}`);
-    return;
+    return next();
   }
 
   const flashcardStats = getFlashcardStats(subjects);
@@ -54,4 +54,6 @@ SubjectSchema.pre('save', async function (next) {
   userStats.learnedFlashcards = flashcardStats;
 
   await userStats.save();
+
+  next();
 });
