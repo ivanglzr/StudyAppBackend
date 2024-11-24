@@ -21,8 +21,9 @@ export const countLearnedFlashcardsPerSubject = (subjects: Subject[]) =>
     );
 
     return {
-      percentage: total !== 0 ? learned / total : 0,
-      total,
+      learnedFlashcardsPercentage: total !== 0 ? learned / total : 0,
+      totalFlashcards: total,
+      learnedFlashcards: learned,
       subjectId: subject._id,
     };
   });
@@ -36,10 +37,14 @@ export function getFlashcardStats(subjects: Subject[]) {
   const learnedFlashcards = countLearnedFlashcards(subjects);
 
   const flashcardsStats = new LearnedFlashcards();
+
   flashcardsStats.totalFlashcards = totalFlashcards;
+
   flashcardsStats.learnedFlashcardsPercentage =
     totalFlashcards !== 0 ? learnedFlashcards / totalFlashcards : 0;
+
   flashcardsStats.subjectsFlashcardsStats = learnedFlashcardsPerSubject;
+
   flashcardsStats.learnedFlashcards = learnedFlashcards;
 
   return flashcardsStats;
