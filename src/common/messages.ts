@@ -24,6 +24,9 @@ export enum ERROR_MESSAGES {
 
   //? Note
   NOTE_NOT_FOUND = 'Note not found, please try again',
+
+  //? Stats
+  STATS_NOT_FOUND = 'Stats not found',
 }
 
 export enum RESPONSE_MESSAGES {
@@ -68,4 +71,8 @@ export enum RESPONSE_MESSAGES {
   NOTE_CREATED = 'Note created successfully',
   NOTE_EDITED = 'Note edited successfully',
   NOTE_DELETED = 'Note deleted successfully',
+
+  //? Stats
+  STATS_FOUND = 'Stats found',
+  SUBJECT_STUDY_TIME_UPDATE = 'Study time updated successfully',
 }
