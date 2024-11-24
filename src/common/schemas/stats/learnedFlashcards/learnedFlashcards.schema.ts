@@ -7,7 +7,8 @@ import { Subject } from 'src/common/schemas/subject/subject.schema';
 class LearnedFlashcardsPerSubject {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: Subject.name,
+    //TODO: throws a TypeError. It can't read properties of undefined. Fix it
+    ref: Subject?.name ?? 'Subject',
     required: true,
   })
   subjectId: Subject | mongoose.Schema.Types.ObjectId;
