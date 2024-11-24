@@ -35,9 +35,6 @@ export function getFlashcardStats(subjects: Subject[]) {
 
   const learnedFlashcards = countLearnedFlashcards(subjects);
 
-  console.log('Total', totalFlashcards);
-  console.log('Learned', learnedFlashcards);
-
   const flashcardsStats = new LearnedFlashcards();
   flashcardsStats.totalFlashcards = totalFlashcards;
   flashcardsStats.learnedFlashcardsPercentage =
