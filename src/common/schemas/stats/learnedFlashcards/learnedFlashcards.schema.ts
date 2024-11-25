@@ -4,7 +4,7 @@ import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
 import { Subject } from 'src/common/schemas/subject/subject.schema';
 
 @Schema({ _id: false })
-class LearnedFlashcardsPerSubject {
+export class LearnedFlashcardsPerSubject {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: Subject?.name ?? 'Subject',
