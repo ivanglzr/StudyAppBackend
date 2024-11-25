@@ -30,6 +30,16 @@ export class StatsService {
     return stats;
   }
 
+  async getSubjectStudyTime(userId: string, subjectId: string) {
+    const stats = await this.getStats(userId);
+
+    const studyTime = stats.subjectStats.find(
+      (subject) => subject.subjectId.toString() === subjectId,
+    ).studyTime;
+
+    return studyTime;
+  }
+
   async updateSubjectStudyTime(
     userId: string,
     subjectId: string,

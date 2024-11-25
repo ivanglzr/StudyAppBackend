@@ -55,6 +55,20 @@ export class StatsController {
     };
   }
 
+  @Get(STATS_ROUTES.GET_SUBJECT_STUDY_TIME)
+  async getSubjectStudyTime(
+    @Id() userId: string,
+    @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
+  ) {
+    const time = await this.statsService.getSubjectStudyTime(userId, subjectId);
+
+    return {
+      status: HttpStatus.OK,
+      message: RESPONSE_MESSAGES.SUBJECT_STUDY_TIME_FOUND,
+      time,
+    };
+  }
+
   @Get(':id')
   async getStatsById(
     @Id() userId: string,
