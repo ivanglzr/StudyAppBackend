@@ -8,7 +8,7 @@ import { Flashcard, FlashcardSchema } from './flashcard/flashcard.schema';
 import { Exam, ExamSchema } from './exam/exam.schema';
 import { Stats } from '../stats/stats.schema';
 
-import { getFlashcardStats } from '../stats/utils';
+import { getSubjectFlashcardStats } from '../stats/utils';
 
 @Schema({ timestamps: true })
 export class Subject {
@@ -51,17 +51,20 @@ SubjectSchema.pre('save', async function (next) {
     return next();
   }
 
-  if (this.isNew)
+  const newSubjectStats = getSubjectFlashcardStats(this);
+
+  if (this.isNew) {
     userStats.subjectStats.push({ subjectId: this._id, studyTime: 0 });
+    userStats.flashcardStats.subjectsFlashcardsStats.push(newSubjectStats);
+  } else {
+    const actualSubjectStatsIndex =
+      userStats.flashcardStats.subjectsFlashcardsStats.findIndex(
+        (stats) => stats.subjectId.toString() === this._id.toString(),
+      );
 
-  //TODO: don't update all subjects stats when a subject is modified, optimize it
-
-  const subjects = await this.model().find({ userId: this.userId });
-  subjects.push(this);
-
-  const flashcardStats = getFlashcardStats(subjects);
-
-  userStats.learnedFlashcards = flashcardStats;
+    userStats.flashcardStats.subjectsFlashcardsStats[actualSubjectStatsIndex] =
+      newSubjectStats;
+  }
 
   await userStats.save();
 
