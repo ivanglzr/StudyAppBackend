@@ -7,7 +7,7 @@ import { Subject } from 'src/common/schemas/subject/subject.schema';
 export class SubjectStats {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Subject',
+    ref: Subject.name,
     required: true,
   })
   subjectId: Subject | mongoose.Schema.Types.ObjectId;

@@ -12,7 +12,11 @@ import { getFlashcardStats } from '../stats/utils';
 
 @Schema({ timestamps: true })
 export class Subject {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: User?.name ?? 'User',
+    required: true,
+  })
   userId: User;
 
   @Prop({ required: true, trim: true, minlength: 3 })

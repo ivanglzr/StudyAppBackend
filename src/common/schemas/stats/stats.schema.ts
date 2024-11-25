@@ -13,7 +13,11 @@ import {
 
 @Schema()
 export class Stats {
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: User?.name ?? 'User',
+    required: true,
+  })
   userId: User;
 
   @Prop({ default: 0 })
