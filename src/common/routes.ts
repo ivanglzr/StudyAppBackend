@@ -18,6 +18,7 @@ export enum SUBJECT_ROUTES {
 export enum STATS_ROUTES {
   BASE = 'stats',
   UPDATE_SUBJECT_STUDY_TIME = `subject/:${subjectIdParamName}/time`,
+  GET_SUBJECT_STUDY_TIME = `subject/:${subjectIdParamName}/time`,
 }
 
 export enum NOTE_ROUTES {

@@ -75,4 +75,5 @@ export enum RESPONSE_MESSAGES {
   //? Stats
   STATS_FOUND = 'Stats found',
   SUBJECT_STUDY_TIME_UPDATE = 'Study time updated successfully',
+  SUBJECT_STUDY_TIME_FOUND = 'Study time found',
 }
