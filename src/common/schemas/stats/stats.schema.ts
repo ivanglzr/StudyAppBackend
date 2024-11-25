@@ -20,17 +20,17 @@ export class Stats {
   })
   userId: User;
 
-  @Prop({ default: 0 })
+  @Prop({ required: true })
   totalTime: number;
 
-  @Prop({ type: [SubjectStatsSchema], default: [] })
+  @Prop({ type: [SubjectStatsSchema], required: true })
   subjectStats: SubjectStats[];
 
   @Prop({
     type: LearnedFlashcardsSchema,
-    default: { percentage: 0, total: 0, subjects: [] },
+    required: true,
   })
-  learnedFlashcards: LearnedFlashcards;
+  flashcardStats: LearnedFlashcards;
 }
 
 export const StatsSchema = SchemaFactory.createForClass(Stats);
@@ -42,6 +42,20 @@ StatsSchema.pre('save', async function (next) {
     (acc, curr) => acc + curr.studyTime,
     0,
   );
+
+  const [learnedFlashcards, totalFlashcards] =
+    this.flashcardStats.subjectsFlashcardsStats.reduce(
+      (acc, curr) => [
+        acc[0] + curr.learnedFlashcards,
+        acc[1] + curr.totalFlashcards,
+      ],
+      [0, 0],
+    );
+
+  this.flashcardStats.learnedFlashcards = learnedFlashcards;
+  this.flashcardStats.totalFlashcards = totalFlashcards;
+  this.flashcardStats.learnedFlashcardsPercentage =
+    totalFlashcards !== 0 ? learnedFlashcards / totalFlashcards : 0;
 
   next();
 });
