@@ -60,12 +60,15 @@ export class StatsController {
     @Id() userId: string,
     @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
   ) {
-    const time = await this.statsService.getSubjectStudyTime(userId, subjectId);
+    const studyTime = await this.statsService.getSubjectStudyTime(
+      userId,
+      subjectId,
+    );
 
     return {
-      status: HttpStatus.OK,
+      statusCode: HttpStatus.OK,
       message: RESPONSE_MESSAGES.SUBJECT_STUDY_TIME_FOUND,
-      time,
+      studyTime,
     };
   }
 
