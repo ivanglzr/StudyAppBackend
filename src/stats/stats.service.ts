@@ -5,8 +5,9 @@ import { Model } from 'mongoose';
 
 import { Stats } from 'src/common/schemas/stats/stats.schema';
 
-import { ERROR_MESSAGES } from 'src/common/messages';
 import { UpdateSubjectStudyTimeDto } from './dto/update-subject-study-time.dto';
+
+import { ERROR_MESSAGES } from 'src/common/messages';
 
 @Injectable()
 export class StatsService {
@@ -22,22 +23,36 @@ export class StatsService {
     return userStats;
   }
 
-  async getStatsById(userId: string, id: string) {
-    const stats = await this.statsModel.findOne({ _id: id, userId });
-
-    if (!stats) throw new NotFoundException(ERROR_MESSAGES.STATS_NOT_FOUND);
-
-    return stats;
-  }
-
   async getSubjectStudyTime(userId: string, subjectId: string) {
     const stats = await this.getStats(userId);
 
-    const studyTime = stats.subjectStats.find(
+    const studyTime = stats.subjectsStats.find(
       (subject) => subject.subjectId.toString() === subjectId,
-    ).studyTime;
+    )?.studyTime;
+
+    if (studyTime === undefined)
+      throw new NotFoundException(ERROR_MESSAGES.SUBJECT_STATS_NOT_FOUND);
 
     return studyTime;
+  }
+
+  async getSubjectsStats(userId: string) {
+    const { subjectsStats } = await this.getStats(userId);
+
+    return subjectsStats;
+  }
+
+  async getSubjectStatsById(userId: string, subjectId: string) {
+    const subjectsStats = await this.getSubjectsStats(userId);
+
+    const subjectStats = subjectsStats.find(
+      (stats) => stats.subjectId.toString() === subjectId,
+    );
+
+    if (!subjectsStats)
+      throw new NotFoundException(ERROR_MESSAGES.SUBJECT_STATS_NOT_FOUND);
+
+    return subjectStats;
   }
 
   async updateSubjectStudyTime(
@@ -47,14 +62,14 @@ export class StatsService {
   ) {
     const userStats = await this.getStats(userId);
 
-    const subjectIndex = userStats.subjectStats.findIndex(
+    const subjectIndex = userStats.subjectsStats.findIndex(
       (subject) => subject.subjectId.toString() === subjectId,
     );
 
     if (subjectIndex === -1)
       throw new NotFoundException(ERROR_MESSAGES.SUBJECT_NOT_FOUND);
 
-    userStats.subjectStats[subjectIndex].studyTime += studyTime;
+    userStats.subjectsStats[subjectIndex].studyTime += studyTime;
 
     await userStats.save();
   }

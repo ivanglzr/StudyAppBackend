@@ -72,17 +72,21 @@ export class StatsController {
     };
   }
 
-  @Get(':id')
-  async getStatsById(
-    @Id() userId: string,
-    @Param('id', ValidateIdPipe) id: string,
-  ) {
-    const stats = await this.statsService.getStatsById(userId, id);
+  @Get(STATS_ROUTES.GET_SUBJECTS_STATS)
+  async getSubjectStats(@Id() userId: string) {
+    const subjectsStats = await this.statsService.getSubjectsStats(userId);
+
+    const message =
+      subjectsStats.length === 0
+        ? RESPONSE_MESSAGES.NO_SUBJECTS_STATS_FOUND
+        : subjectsStats.length === 1
+          ? RESPONSE_MESSAGES.SUBJECT_STATS_FOUND
+          : RESPONSE_MESSAGES.SUBJECTS_STATS_FOUND;
 
     return {
       statusCode: HttpStatus.OK,
-      message: RESPONSE_MESSAGES.STATS_FOUND,
-      stats,
+      message,
+      stats: subjectsStats,
     };
   }
 }

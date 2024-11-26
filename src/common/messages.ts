@@ -27,6 +27,7 @@ export enum ERROR_MESSAGES {
 
   //? Stats
   STATS_NOT_FOUND = 'Stats not found',
+  SUBJECT_STATS_NOT_FOUND = 'Stats for subject not found, please try again',
 }
 
 export enum RESPONSE_MESSAGES {
@@ -76,4 +77,7 @@ export enum RESPONSE_MESSAGES {
   STATS_FOUND = 'Stats found',
   SUBJECT_STUDY_TIME_UPDATE = 'Study time updated successfully',
   SUBJECT_STUDY_TIME_FOUND = 'Study time found',
+  SUBJECTS_STATS_FOUND = 'Subjects stats found',
+  NO_SUBJECTS_STATS_FOUND = "There isn't any subject stats, why haven't you created one yet?",
+  SUBJECT_STATS_FOUND = 'Subject stats found',
 }
