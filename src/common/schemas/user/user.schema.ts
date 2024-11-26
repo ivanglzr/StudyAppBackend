@@ -52,7 +52,7 @@ UserSchema.pre('save', async function (next) {
   try {
     await statsModel.create({
       userId: this._id,
-      subjectStats: [],
+      subjectsStats: [],
       flashcardStats: emptyFlashcardStats,
       totalTime: 0,
     });

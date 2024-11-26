@@ -24,7 +24,7 @@ export class Stats {
   totalTime: number;
 
   @Prop({ type: [SubjectStatsSchema], required: true })
-  subjectStats: SubjectStats[];
+  subjectsStats: SubjectStats[];
 
   @Prop({
     type: LearnedFlashcardsSchema,
@@ -36,9 +36,9 @@ export class Stats {
 export const StatsSchema = SchemaFactory.createForClass(Stats);
 
 StatsSchema.pre('save', async function (next) {
-  if (!Array.isArray(this.subjectStats)) return next();
+  if (!Array.isArray(this.subjectsStats)) return next();
 
-  this.totalTime = this.subjectStats.reduce(
+  this.totalTime = this.subjectsStats.reduce(
     (acc, curr) => acc + curr.studyTime,
     0,
   );

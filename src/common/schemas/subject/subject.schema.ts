@@ -54,7 +54,7 @@ SubjectSchema.pre('save', async function (next) {
   const newSubjectStats = getSubjectFlashcardStats(this);
 
   if (this.isNew) {
-    userStats.subjectStats.push({ subjectId: this._id, studyTime: 0 });
+    userStats.subjectsStats.push({ subjectId: this._id, studyTime: 0 });
     userStats.flashcardStats.subjectsFlashcardsStats.push(newSubjectStats);
   } else {
     const actualSubjectStatsIndex =
