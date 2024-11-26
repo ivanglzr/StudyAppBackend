@@ -9,10 +9,16 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { SubjectModule } from './subject/subject.module';
+import { StatsModule } from './stats/stats.module';
 
 import { ENVIROMENT_VARIABLES } from './common/config';
 
-import { AUTH_ROUTES, SUBJECT_ROUTES, USER_ROUTES } from './common/routes';
+import {
+  AUTH_ROUTES,
+  STATS_ROUTES,
+  SUBJECT_ROUTES,
+  USER_ROUTES,
+} from './common/routes';
 
 @Module({
   imports: [
@@ -29,6 +35,7 @@ import { AUTH_ROUTES, SUBJECT_ROUTES, USER_ROUTES } from './common/routes';
     UserModule,
     AuthModule,
     SubjectModule,
+    StatsModule,
 
     RouterModule.register([
       {
@@ -38,6 +45,10 @@ import { AUTH_ROUTES, SUBJECT_ROUTES, USER_ROUTES } from './common/routes';
           {
             path: SUBJECT_ROUTES.BASE,
             module: SubjectModule,
+          },
+          {
+            path: STATS_ROUTES.BASE,
+            module: StatsModule,
           },
         ],
       },
