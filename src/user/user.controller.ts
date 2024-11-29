@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpStatus,
   Patch,
@@ -44,6 +45,16 @@ export class UserController {
     return {
       statusCode: HttpStatus.OK,
       message: RESPONSE_MESSAGES.PASSWORD_CHANGED,
+    };
+  }
+
+  @Delete()
+  async deleteUser(@Id() id: string) {
+    await this.userService.deleteUser(id);
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: RESPONSE_MESSAGES.USER_DELETED,
     };
   }
 }
