@@ -68,7 +68,7 @@ export class SubjectController {
     await this.subjectService.createSubject(userId, subject);
 
     return {
-      statusCode: 201,
+      statusCode: HttpStatus.CREATED,
       message: RESPONSE_MESSAGES.SUBJECT_CREATED,
     };
   }
