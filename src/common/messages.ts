@@ -36,6 +36,7 @@ export enum RESPONSE_MESSAGES {
   LOG_IN_SUCCESSFUL = 'Log in successful',
   USER_FOUND = 'User found',
   PASSWORD_CHANGED = 'Password changed successfully',
+  USER_DELETED = 'User deleted successfully',
 
   //? Subject
   SUBJECTS_FOUND = 'Subjects found',
