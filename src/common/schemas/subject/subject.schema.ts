@@ -72,3 +72,44 @@ SubjectSchema.pre('save', async function (next) {
 
   next();
 });
+
+SubjectSchema.pre('findOneAndDelete', async function (next) {
+  const statsModel = this.model.db.model<Stats>(Stats.name);
+
+  const filter = this.getQuery();
+
+  try {
+    const subject = await this.model.findOne<Stats>(filter);
+    const stats = await statsModel.findOne({ userId: subject.userId });
+
+    const subjectStatsIndex = stats.subjectsStats.findIndex(
+      (subjectStats) =>
+        subjectStats.subjectId.toString() === subject._id.toString(),
+    );
+
+    const flashcardsStatsIndex =
+      stats.flashcardStats.subjectsFlashcardsStats.findIndex(
+        (flashcardsStats) =>
+          flashcardsStats.subjectId.toString() === subject._id.toString(),
+      );
+
+    if (subjectStatsIndex === -1 || flashcardsStatsIndex === -1) {
+      console.error("[!] A subject didn't had stats");
+      return next();
+    }
+
+    stats.subjectsStats.splice(subjectStatsIndex, 1);
+    stats.flashcardStats.subjectsFlashcardsStats.splice(
+      flashcardsStatsIndex,
+      1,
+    );
+
+    await stats.save();
+  } catch (error) {
+    console.error(
+      `[!] An error ocurred while deleting the subject. Message: ${(error as Error).message}`,
+    );
+  } finally {
+    next();
+  }
+});

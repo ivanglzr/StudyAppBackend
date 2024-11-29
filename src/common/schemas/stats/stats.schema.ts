@@ -31,6 +31,8 @@ export class Stats {
     required: true,
   })
   flashcardStats: LearnedFlashcards;
+
+  _id: mongoose.Schema.Types.ObjectId;
 }
 
 export const StatsSchema = SchemaFactory.createForClass(Stats);
