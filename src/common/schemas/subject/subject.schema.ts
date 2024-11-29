@@ -10,6 +10,8 @@ import { Stats } from '../stats/stats.schema';
 
 import { getSubjectFlashcardStats } from '../stats/utils';
 
+import { subjectNameMinLength } from './config';
+
 @Schema({ timestamps: true })
 export class Subject {
   @Prop({
@@ -19,7 +21,7 @@ export class Subject {
   })
   userId: User;
 
-  @Prop({ required: true, trim: true, minlength: 3 })
+  @Prop({ required: true, trim: true, minlength: subjectNameMinLength })
   subjectName: string;
 
   @Prop({ type: [NoteSchema] })
