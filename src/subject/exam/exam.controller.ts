@@ -61,7 +61,7 @@ export class ExamController {
     const exam = await this.examService.getExam(userId, subjectId, examId);
 
     return {
-      status: HttpStatus.OK,
+      statusCode: HttpStatus.OK,
       message: RESPONSE_MESSAGES.EXAM_FOUND,
       exam,
     };

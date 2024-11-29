@@ -68,7 +68,7 @@ export class FlashcardController {
     );
 
     return {
-      status: HttpStatus.OK,
+      statusCode: HttpStatus.OK,
       message: RESPONSE_MESSAGES.FLASHCARD_FOUND,
       flashcard,
     };
@@ -117,7 +117,7 @@ export class FlashcardController {
     await this.flashcardService.deleteFlashcard(userId, subjectId, flashcardId);
 
     return {
-      status: HttpStatus.OK,
+      statusCode: HttpStatus.OK,
       message: RESPONSE_MESSAGES.FLASHCARD_DELETED,
     };
   }

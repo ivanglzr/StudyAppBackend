@@ -91,7 +91,7 @@ export class NoteController {
     await this.noteService.updateNote(userId, subjectId, noteId, note);
 
     return {
-      status: HttpStatus.OK,
+      statusCode: HttpStatus.OK,
       message: RESPONSE_MESSAGES.NOTE_EDITED,
     };
   }
@@ -105,7 +105,7 @@ export class NoteController {
     await this.noteService.deleteNote(userId, subjectId, noteId);
 
     return {
-      status: HttpStatus.OK,
+      statusCode: HttpStatus.OK,
       message: RESPONSE_MESSAGES.NOTE_DELETED,
     };
   }

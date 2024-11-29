@@ -57,7 +57,7 @@ export class SubjectController {
     );
 
     return {
-      status: HttpStatus.OK,
+      statusCode: HttpStatus.OK,
       message: RESPONSE_MESSAGES.SUBJECT_FOUND,
       subject,
     };
