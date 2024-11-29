@@ -1,7 +1,9 @@
-import { type Model } from 'mongoose';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 
 import { Stats } from 'src/common/schemas/stats/stats.schema';
+
+import { LearnedFlashcards } from '../stats/learnedFlashcards/learnedFlashcards.schema';
+import { Subject } from '../subject/subject.schema';
 
 import {
   emailMinLength,
@@ -10,7 +12,6 @@ import {
   passwordMinLength,
   passwordRegex,
 } from './config';
-import { LearnedFlashcards } from '../stats/learnedFlashcards/learnedFlashcards.schema';
 
 @Schema({ timestamps: true })
 export class User {
@@ -38,9 +39,9 @@ export class User {
 export const UserSchema = SchemaFactory.createForClass(User);
 
 UserSchema.pre('save', async function (next) {
-  if (!this.isNew) return;
+  if (!this.isNew) return next();
 
-  const statsModel: Model<Stats> = this.db.model(Stats.name);
+  const statsModel = this.db.model<Stats>(Stats.name);
 
   const emptyFlashcardStats: LearnedFlashcards = {
     learnedFlashcardsPercentage: 0,
@@ -59,6 +60,24 @@ UserSchema.pre('save', async function (next) {
   } catch (error) {
     console.error(
       `[!] An error ocurred while creating a user stats. Message: ${(error as Error).message}`,
+    );
+  } finally {
+    next();
+  }
+});
+
+UserSchema.pre('findOneAndDelete', async function (next) {
+  const subjectModel = this.model.db.model<Subject>(Subject.name);
+  const statsModel = this.model.db.model<Stats>(Stats.name);
+
+  const query = { userId: this.getFilter()._id };
+
+  try {
+    await subjectModel.deleteMany(query);
+    await statsModel.findOneAndDelete(query);
+  } catch (error) {
+    console.error(
+      `[!] An error ocurred while deleting the user. Message: ${(error as Error).message}`,
     );
   } finally {
     next();
