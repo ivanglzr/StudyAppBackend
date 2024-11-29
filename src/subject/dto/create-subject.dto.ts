@@ -5,6 +5,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  MinLength,
   ValidateNested,
 } from 'class-validator';
 
@@ -14,9 +15,12 @@ import { FlashcardDto } from '../flashcard/dto/flashcard.dto';
 
 import { ExamDto } from '../exam/dto/exam.dto';
 
+import { subjectNameMinLength } from 'src/common/schemas/subject/config';
+
 export class CreateSubjectDto {
   @IsString()
   @IsNotEmpty()
+  @MinLength(subjectNameMinLength)
   subjectName: string;
 
   @IsOptional()
