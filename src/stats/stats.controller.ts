@@ -28,7 +28,7 @@ export class StatsController {
 
   @Get()
   async getStats(@Id() userId: string) {
-    const stats = await this.statsService.getStats(userId);
+    const stats = await this.statsService.getPopulatedStats(userId);
 
     return {
       statusCode: HttpStatus.OK,
