@@ -26,6 +26,20 @@ const LearnedFlashcardsPerSubjectSchema = SchemaFactory.createForClass(
   LearnedFlashcardsPerSubject,
 );
 
+LearnedFlashcardsPerSubjectSchema.virtual('subject', {
+  ref: Subject?.name ?? 'Subject',
+  localField: 'subjectId',
+  foreignField: '_id',
+  justOne: true,
+});
+
+const options = {
+  virtuals: true,
+};
+
+LearnedFlashcardsPerSubjectSchema.set('toJSON', options);
+LearnedFlashcardsPerSubjectSchema.set('toObject', options);
+
 @Schema({ _id: false })
 export class LearnedFlashcards {
   @Prop({ required: true })

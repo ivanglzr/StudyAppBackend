@@ -17,3 +17,17 @@ export class SubjectStats {
 }
 
 export const SubjectStatsSchema = SchemaFactory.createForClass(SubjectStats);
+
+SubjectStatsSchema.virtual('subject', {
+  ref: Subject.name,
+  localField: 'subjectId',
+  foreignField: '_id',
+  justOne: true,
+});
+
+const options = {
+  virtuals: true,
+};
+
+SubjectStatsSchema.set('toJSON', options);
+SubjectStatsSchema.set('toObject', options);
