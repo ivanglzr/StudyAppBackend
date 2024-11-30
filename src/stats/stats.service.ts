@@ -15,6 +15,17 @@ export class StatsService {
     @InjectModel(Stats.name) private readonly statsModel: Model<Stats>,
   ) {}
 
+  async getPopulatedStats(userId: string) {
+    const userStats = await this.statsModel
+      .findOne({ userId })
+      .populate('subjectsStats.subject')
+      .populate('flashcardStats.subjectsFlashcardsStats.subject');
+
+    if (!userStats) throw new NotFoundException(ERROR_MESSAGES.STATS_NOT_FOUND);
+
+    return userStats;
+  }
+
   async getStats(userId: string) {
     const userStats = await this.statsModel.findOne({ userId });
 
@@ -37,7 +48,7 @@ export class StatsService {
   }
 
   async getSubjectsStats(userId: string) {
-    const { subjectsStats } = await this.getStats(userId);
+    const { subjectsStats } = await this.getPopulatedStats(userId);
 
     return subjectsStats;
   }
