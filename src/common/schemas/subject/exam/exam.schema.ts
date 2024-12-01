@@ -1,10 +1,11 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-
 import { Types } from 'mongoose';
+
+import { examTitleMinLength } from './config';
 
 @Schema()
 export class Exam {
-  @Prop({ required: true, trim: true, minlength: 2 })
+  @Prop({ required: true, trim: true, minlength: examTitleMinLength })
   title: string;
 
   @Prop({ required: true })

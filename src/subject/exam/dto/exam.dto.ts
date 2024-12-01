@@ -1,8 +1,11 @@
-import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsString, MinLength } from 'class-validator';
+
+import { examTitleMinLength } from 'src/common/schemas/subject/exam/config';
 
 export class ExamDto {
   @IsString()
   @IsNotEmpty()
+  @MinLength(examTitleMinLength)
   title: string;
 
   @IsDateString()
