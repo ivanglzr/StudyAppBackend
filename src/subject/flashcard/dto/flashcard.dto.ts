@@ -1,4 +1,5 @@
 import {
+  ArrayNotEmpty,
   IsArray,
   IsBoolean,
   IsNotEmpty,
@@ -16,6 +17,7 @@ export class FlashcardDto {
   title: string;
 
   @IsArray()
+  @ArrayNotEmpty()
   @IsString({ each: true })
   answers: string[];
 
