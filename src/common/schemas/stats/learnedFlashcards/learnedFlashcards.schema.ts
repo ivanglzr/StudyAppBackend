@@ -2,15 +2,16 @@ import * as mongoose from 'mongoose';
 import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
 
 import { Subject } from 'src/common/schemas/subject/subject.schema';
+import { IFlashcardsStats, ISubjectFlashcardsStats } from '@study-app/types';
 
 @Schema({ _id: false })
-export class LearnedFlashcardsPerSubject {
+export class LearnedFlashcardsPerSubject implements ISubjectFlashcardsStats {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: Subject?.name ?? 'Subject',
     required: true,
   })
-  subjectId: Subject | mongoose.Schema.Types.ObjectId;
+  subjectId: mongoose.Schema.Types.ObjectId;
 
   @Prop({ required: true })
   learnedFlashcardsPercentage: number;
@@ -41,7 +42,7 @@ LearnedFlashcardsPerSubjectSchema.set('toJSON', options);
 LearnedFlashcardsPerSubjectSchema.set('toObject', options);
 
 @Schema({ _id: false })
-export class LearnedFlashcards {
+export class LearnedFlashcards implements IFlashcardsStats {
   @Prop({ required: true })
   learnedFlashcardsPercentage: number;
 

@@ -8,18 +8,20 @@ import { Flashcard, FlashcardSchema } from './flashcard/flashcard.schema';
 import { Exam, ExamSchema } from './exam/exam.schema';
 import { Stats } from '../stats/stats.schema';
 
-import { getSubjectFlashcardStats } from '../stats/utils';
+import { getSubjectFlashcardsStats } from '../stats/utils';
 
 import { subjectNameMinLength } from './config';
 
+import { ISubject } from '@study-app/types';
+
 @Schema({ timestamps: true })
-export class Subject {
+export class Subject implements ISubject {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: User?.name ?? 'User',
     required: true,
   })
-  userId: User;
+  userId: mongoose.Schema.Types.ObjectId;
 
   @Prop({ required: true, trim: true, minlength: subjectNameMinLength })
   subjectName: string;
@@ -53,18 +55,18 @@ SubjectSchema.pre('save', async function (next) {
     return next();
   }
 
-  const newSubjectStats = getSubjectFlashcardStats(this);
+  const newSubjectStats = getSubjectFlashcardsStats(this);
 
   if (this.isNew) {
     userStats.subjectsStats.push({ subjectId: this._id, studyTime: 0 });
-    userStats.flashcardStats.subjectsFlashcardsStats.push(newSubjectStats);
+    userStats.flashcardsStats.subjectsFlashcardsStats.push(newSubjectStats);
   } else {
     const actualSubjectStatsIndex =
-      userStats.flashcardStats.subjectsFlashcardsStats.findIndex(
+      userStats.flashcardsStats.subjectsFlashcardsStats.findIndex(
         (stats) => stats.subjectId.toString() === this._id.toString(),
       );
 
-    userStats.flashcardStats.subjectsFlashcardsStats[actualSubjectStatsIndex] =
+    userStats.flashcardsStats.subjectsFlashcardsStats[actualSubjectStatsIndex] =
       newSubjectStats;
   }
 
@@ -88,7 +90,7 @@ SubjectSchema.pre('findOneAndDelete', async function (next) {
     );
 
     const flashcardsStatsIndex =
-      stats.flashcardStats.subjectsFlashcardsStats.findIndex(
+      stats.flashcardsStats.subjectsFlashcardsStats.findIndex(
         (flashcardsStats) =>
           flashcardsStats.subjectId.toString() === subject._id.toString(),
       );
@@ -99,7 +101,7 @@ SubjectSchema.pre('findOneAndDelete', async function (next) {
     }
 
     stats.subjectsStats.splice(subjectStatsIndex, 1);
-    stats.flashcardStats.subjectsFlashcardsStats.splice(
+    stats.flashcardsStats.subjectsFlashcardsStats.splice(
       flashcardsStatsIndex,
       1,
     );

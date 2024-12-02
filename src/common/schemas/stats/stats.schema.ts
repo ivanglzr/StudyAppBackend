@@ -11,14 +11,16 @@ import {
   LearnedFlashcardsSchema,
 } from './learnedFlashcards/learnedFlashcards.schema';
 
+import { IStats } from '@study-app/types';
+
 @Schema()
-export class Stats {
+export class Stats implements IStats {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: User?.name ?? 'User',
     required: true,
   })
-  userId: User;
+  userId: mongoose.Schema.Types.ObjectId;
 
   @Prop({ required: true })
   totalTime: number;
@@ -30,7 +32,7 @@ export class Stats {
     type: LearnedFlashcardsSchema,
     required: true,
   })
-  flashcardStats: LearnedFlashcards;
+  flashcardsStats: LearnedFlashcards;
 
   _id: mongoose.Schema.Types.ObjectId;
 }
@@ -46,7 +48,7 @@ StatsSchema.pre('save', async function (next) {
   );
 
   const [learnedFlashcards, totalFlashcards] =
-    this.flashcardStats.subjectsFlashcardsStats.reduce(
+    this.flashcardsStats.subjectsFlashcardsStats.reduce(
       (acc, curr) => [
         acc[0] + curr.learnedFlashcards,
         acc[1] + curr.totalFlashcards,
@@ -54,9 +56,9 @@ StatsSchema.pre('save', async function (next) {
       [0, 0],
     );
 
-  this.flashcardStats.learnedFlashcards = learnedFlashcards;
-  this.flashcardStats.totalFlashcards = totalFlashcards;
-  this.flashcardStats.learnedFlashcardsPercentage =
+  this.flashcardsStats.learnedFlashcards = learnedFlashcards;
+  this.flashcardsStats.totalFlashcards = totalFlashcards;
+  this.flashcardsStats.learnedFlashcardsPercentage =
     totalFlashcards !== 0 ? learnedFlashcards / totalFlashcards : 0;
 
   next();

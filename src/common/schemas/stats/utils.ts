@@ -2,7 +2,7 @@ import { Subject } from '../subject/subject.schema';
 
 import { LearnedFlashcardsPerSubject } from './learnedFlashcards/learnedFlashcards.schema';
 
-export const getSubjectFlashcardStats = (
+export const getSubjectFlashcardsStats = (
   subject: Subject,
 ): LearnedFlashcardsPerSubject => {
   const total = subject.flashcards.length;

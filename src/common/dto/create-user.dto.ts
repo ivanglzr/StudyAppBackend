@@ -6,8 +6,6 @@ import {
   MinLength,
 } from 'class-validator';
 
-import { User } from 'src/common/schemas/user/user.schema';
-
 import {
   emailMinLength,
   emailRegex,
@@ -16,7 +14,9 @@ import {
 
 import { PasswordValidation } from '../decorators/password-validation.decorator';
 
-export class CreateUserDto implements User {
+import { IRegister } from '@study-app/types';
+
+export class CreateUserDto implements IRegister {
   @IsString()
   @IsNotEmpty()
   @MinLength(fullnameMinLength)

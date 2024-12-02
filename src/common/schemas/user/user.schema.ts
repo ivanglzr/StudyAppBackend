@@ -1,3 +1,4 @@
+import * as mongoose from 'mongoose';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 
 import { Stats } from 'src/common/schemas/stats/stats.schema';
@@ -13,8 +14,10 @@ import {
   passwordRegex,
 } from './config';
 
+import { IUser } from '@study-app/types';
+
 @Schema({ timestamps: true })
-export class User {
+export class User implements IUser {
   @Prop({ required: true, trim: true, minlength: fullnameMinLength })
   fullname: string;
 
@@ -34,6 +37,8 @@ export class User {
     match: passwordRegex,
   })
   password: string;
+
+  _id: mongoose.Schema.Types.ObjectId;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
@@ -43,7 +48,7 @@ UserSchema.pre('save', async function (next) {
 
   const statsModel = this.db.model<Stats>(Stats.name);
 
-  const emptyFlashcardStats: LearnedFlashcards = {
+  const emptyFlashcardsStats: LearnedFlashcards = {
     learnedFlashcardsPercentage: 0,
     totalFlashcards: 0,
     learnedFlashcards: 0,
@@ -54,7 +59,7 @@ UserSchema.pre('save', async function (next) {
     await statsModel.create({
       userId: this._id,
       subjectsStats: [],
-      flashcardStats: emptyFlashcardStats,
+      flashcardsStats: emptyFlashcardsStats,
       totalTime: 0,
     });
   } catch (error) {

@@ -3,14 +3,16 @@ import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
 
 import { Subject } from 'src/common/schemas/subject/subject.schema';
 
+import { ISubjectStats } from '@study-app/types';
+
 @Schema({ _id: false })
-export class SubjectStats {
+export class SubjectStats implements ISubjectStats {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: Subject.name,
     required: true,
   })
-  subjectId: Subject | mongoose.Schema.Types.ObjectId;
+  subjectId: mongoose.Schema.Types.ObjectId;
 
   @Prop({ required: true })
   studyTime: number;

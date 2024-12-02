@@ -1,15 +1,17 @@
+import * as mongoose from 'mongoose';
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
+
+import { INote } from '@study-app/types';
 
 @Schema()
-export class Note {
+export class Note implements INote {
   @Prop({ required: true, trim: true })
   title: string;
 
   @Prop({ required: true, trim: true })
   content: string;
 
-  _id: Types.ObjectId;
+  _id: mongoose.Schema.Types.ObjectId;
 }
 
 export const NoteSchema = SchemaFactory.createForClass(Note);

@@ -1,11 +1,13 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 
-import { Types } from 'mongoose';
+import * as mongoose from 'mongoose';
 
 import { flashcardMinLength } from './config';
 
+import { IFlashcard } from '@study-app/types';
+
 @Schema()
-export class Flashcard {
+export class Flashcard implements IFlashcard {
   @Prop({ required: true, trim: true, minlength: flashcardMinLength })
   title: string;
 
@@ -18,7 +20,7 @@ export class Flashcard {
   @Prop({ default: false })
   learned: boolean;
 
-  _id: Types.ObjectId;
+  _id: mongoose.Schema.Types.ObjectId;
 }
 
 export const FlashcardSchema = SchemaFactory.createForClass(Flashcard);

@@ -19,7 +19,7 @@ export class StatsService {
     const userStats = await this.statsModel
       .findOne({ userId })
       .populate('subjectsStats.subject')
-      .populate('flashcardStats.subjectsFlashcardsStats.subject');
+      .populate('flashcardsStats.subjectsFlashcardsStats.subject');
 
     if (!userStats) throw new NotFoundException(ERROR_MESSAGES.STATS_NOT_FOUND);
 
