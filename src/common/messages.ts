@@ -15,6 +15,7 @@ export enum ERROR_MESSAGES {
   //? Document
   DOCUMENT_NOT_FOUND = 'File not found, please try again',
   FAILED_TO_DELETE_DOCUMENT = 'An error ocurred while deleting the file please try again',
+  FILE_NOT_SEND = "There isn't a file, please select one",
 
   //? Exam
   EXAM_NOT_FOUND = 'Exam not found, please try again',
@@ -47,6 +48,9 @@ export enum RESPONSE_MESSAGES {
   SUBJECT_DELETED = 'Subject deleted successfully',
 
   //? Document
+  DOCUMENTS_FOUND = 'Documents found successfully',
+  DOCUMENT_FOUND = 'Document found successfully',
+  NO_DOCUMENTS_FOUND = "There isn't any documents",
   DOCUMENT_UPLOADED = 'Document uploaded successfully',
   DOCUMENT_DELETED = 'Document deleted successfully',
 

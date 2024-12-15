@@ -4,6 +4,7 @@ import { createReadStream } from 'node:fs';
 import * as path from 'node:path';
 
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -23,6 +24,15 @@ export class DocumentService {
     const filePath = path.join(process.cwd(), documentsDestination, filename);
 
     return filePath;
+  }
+
+  async getDocuments(userId: string, subjectId: string) {
+    const { documents } = await this.subjectService.findSubjectById(
+      userId,
+      subjectId,
+    );
+
+    return documents;
   }
 
   async getDocument(userId: string, subjectId: string, filename: string) {
@@ -45,13 +55,19 @@ export class DocumentService {
     return createReadStream(filePath);
   }
 
-  async postDocument(userId: string, subjectId: string, filename: string) {
+  async postDocument(
+    userId: string,
+    subjectId: string,
+    file: Express.Multer.File,
+  ) {
+    if (!file) throw new BadRequestException(ERROR_MESSAGES.FILE_NOT_SEND);
+
     const subject = await this.subjectService.findSubjectById(
       userId,
       subjectId,
     );
 
-    subject.documents.push(filename);
+    subject.documents.push(file.filename);
 
     await subject.save();
   }

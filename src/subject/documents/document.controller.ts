@@ -34,6 +34,30 @@ import { RESPONSE_MESSAGES } from 'src/common/messages';
 export class DocumentController {
   constructor(private readonly documentService: DocumentService) {}
 
+  @Get()
+  async getDocuments(
+    @Id() userId: string,
+    @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
+  ) {
+    const documents = await this.documentService.getDocuments(
+      userId,
+      subjectId,
+    );
+
+    const message =
+      documents.length === 0
+        ? RESPONSE_MESSAGES.NO_DOCUMENTS_FOUND
+        : documents.length === 1
+          ? RESPONSE_MESSAGES.DOCUMENT_FOUND
+          : RESPONSE_MESSAGES.DOCUMENTS_FOUND;
+
+    return {
+      statusCode: HttpStatus.OK,
+      message,
+      documents,
+    };
+  }
+
   @Get(':filename')
   async getFile(
     @Id() userId: string,
@@ -60,7 +84,7 @@ export class DocumentController {
     @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
     @UploadedFile() file: Express.Multer.File,
   ) {
-    await this.documentService.postDocument(userId, subjectId, file.filename);
+    await this.documentService.postDocument(userId, subjectId, file);
 
     return {
       statusCode: HttpStatus.CREATED,
