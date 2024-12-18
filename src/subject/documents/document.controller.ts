@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Res,
   StreamableFile,
   UploadedFile,
   UseGuards,
@@ -28,6 +29,7 @@ import { subjectIdParamName } from '../config';
 import { DOCUMENT_ROUTES } from 'src/common/routes';
 
 import { RESPONSE_MESSAGES } from 'src/common/messages';
+import { Response } from 'express';
 
 @Controller(DOCUMENT_ROUTES.BASE)
 @UseGuards(AuthGuard)
@@ -63,14 +65,17 @@ export class DocumentController {
     @Id() userId: string,
     @Param(subjectIdParamName, ValidateIdPipe) subjectId: string,
     @Param('filename') filename: string,
+    @Res() res: Response,
   ) {
-    const file = await this.documentService.getDocument(
+    const fileStream = await this.documentService.getDocument(
       userId,
       subjectId,
       filename,
     );
 
-    return new StreamableFile(file);
+    res.setHeader('Content-Disposition', 'inline');
+
+    fileStream.pipe(res);
   }
 
   @Post()
