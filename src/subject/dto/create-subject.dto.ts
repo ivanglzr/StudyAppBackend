@@ -46,13 +46,4 @@ export class CreateSubjectDto {
   color: string;
 
   documents: string[];
-
-  constructor(partial: Partial<CreateSubjectDto>) {
-    Object.assign(this, partial);
-
-    this.notes ??= [];
-    this.flashcards ??= [];
-    this.exams ??= [];
-    this.documents = [];
-  }
 }

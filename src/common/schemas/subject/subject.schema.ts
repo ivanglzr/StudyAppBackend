@@ -26,16 +26,16 @@ export class Subject implements ISubject {
   @Prop({ required: true, trim: true, minlength: subjectNameMinLength })
   subjectName: string;
 
-  @Prop({ type: [NoteSchema] })
+  @Prop({ type: [NoteSchema], default: [] })
   notes: Note[];
 
-  @Prop([String])
+  @Prop({ type: [String], default: [] })
   documents: string[];
 
-  @Prop({ type: [FlashcardSchema] })
+  @Prop({ type: [FlashcardSchema], default: [] })
   flashcards: Flashcard[];
 
-  @Prop({ type: [ExamSchema] })
+  @Prop({ type: [ExamSchema], default: [] })
   exams: Exam[];
 
   @Prop({ default: '#fff' })
