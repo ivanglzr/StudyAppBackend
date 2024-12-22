@@ -9,22 +9,11 @@ export const documentsDestination = 'uploads/documents';
 const allowedExtensions = [
   '.txt',
   '.md',
-  '.rtf',
   '.csv',
   '.json',
-  '.yaml',
   '.xml',
-  '.tex',
   '.mdx',
-  '.rst',
   '.pdf',
-  '.doc',
-  '.docx',
-  '.odt',
-  '.xls',
-  '.xlsx',
-  '.ppt',
-  '.pptx',
 ];
 
 export const multerStorage = diskStorage({
